@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>nginx的https证书自动续期 | 角落小天地</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    <link rel="icon" href="/img/favicon.ico">
+    <meta name="description" content="web前端技术博客,专注web前端学习与总结。JavaScript,js,ES6,TypeScript,vue,React,python,css3,html5,Node,git,github等技术文章。">
+    <meta name="keywords" content="前端博客,个人技术博客,前端,前端开发,前端框架,web前端,前端面试题,技术文档,学习,面试,JavaScript,js,ES6,TypeScript,vue,python,css3,html5,Node,git,github,markdown">
+    <meta name="baidu-site-verification" content="7F55weZDDc">
+    <meta name="theme-color" content="#11a8cd">
+    
+    <link rel="preload" href="/assets/css/0.styles.6b0d51f2.css" as="style"><link rel="preload" href="/assets/js/app.5fc94a17.js" as="script"><link rel="preload" href="/assets/js/2.aa11156f.js" as="script"><link rel="preload" href="/assets/js/82.7f152b17.js" as="script"><link rel="prefetch" href="/assets/js/10.38457715.js"><link rel="prefetch" href="/assets/js/100.641c7fa0.js"><link rel="prefetch" href="/assets/js/101.69ea0750.js"><link rel="prefetch" href="/assets/js/102.e2123bc7.js"><link rel="prefetch" href="/assets/js/103.9ba4a722.js"><link rel="prefetch" href="/assets/js/104.a56dfd60.js"><link rel="prefetch" href="/assets/js/105.cd4ba708.js"><link rel="prefetch" href="/assets/js/106.613ef3e2.js"><link rel="prefetch" href="/assets/js/107.726d1253.js"><link rel="prefetch" href="/assets/js/108.1d7c6236.js"><link rel="prefetch" href="/assets/js/109.5e87c7cc.js"><link rel="prefetch" href="/assets/js/11.78d87f84.js"><link rel="prefetch" href="/assets/js/110.edb7296e.js"><link rel="prefetch" href="/assets/js/111.ab7d956b.js"><link rel="prefetch" href="/assets/js/112.b71687d8.js"><link rel="prefetch" href="/assets/js/113.1ac492f4.js"><link rel="prefetch" href="/assets/js/114.dbd640d8.js"><link rel="prefetch" href="/assets/js/115.da2de925.js"><link rel="prefetch" href="/assets/js/116.f8c66d99.js"><link rel="prefetch" href="/assets/js/117.5be8b9c2.js"><link rel="prefetch" href="/assets/js/118.0ae7d14e.js"><link rel="prefetch" href="/assets/js/119.439fd6e9.js"><link rel="prefetch" href="/assets/js/12.3afd9344.js"><link rel="prefetch" href="/assets/js/120.6c6dc298.js"><link rel="prefetch" href="/assets/js/121.6eb84a88.js"><link rel="prefetch" href="/assets/js/122.a35349da.js"><link rel="prefetch" href="/assets/js/123.a4ed503b.js"><link rel="prefetch" href="/assets/js/124.445c4d2b.js"><link rel="prefetch" href="/assets/js/125.44c2f48e.js"><link rel="prefetch" href="/assets/js/126.0a10c53b.js"><link rel="prefetch" href="/assets/js/127.f1a1ad05.js"><link rel="prefetch" href="/assets/js/128.43b793ca.js"><link rel="prefetch" href="/assets/js/129.d3269c53.js"><link rel="prefetch" href="/assets/js/13.364b4ec5.js"><link rel="prefetch" href="/assets/js/130.8cad425d.js"><link rel="prefetch" href="/assets/js/131.6440422c.js"><link rel="prefetch" href="/assets/js/132.fef2dfb9.js"><link rel="prefetch" href="/assets/js/133.bc721fca.js"><link rel="prefetch" href="/assets/js/134.8fe63412.js"><link rel="prefetch" href="/assets/js/135.4ca635d1.js"><link rel="prefetch" href="/assets/js/136.e6b7bd00.js"><link rel="prefetch" href="/assets/js/137.be802a26.js"><link rel="prefetch" href="/assets/js/138.9fed85b5.js"><link rel="prefetch" href="/assets/js/139.c6dc653a.js"><link rel="prefetch" href="/assets/js/14.2a5aae79.js"><link rel="prefetch" href="/assets/js/140.015b56cf.js"><link rel="prefetch" href="/assets/js/141.430c01a1.js"><link rel="prefetch" href="/assets/js/142.596dcc8f.js"><link rel="prefetch" href="/assets/js/143.1a518b14.js"><link rel="prefetch" href="/assets/js/144.4c618be4.js"><link rel="prefetch" href="/assets/js/145.db53197e.js"><link rel="prefetch" href="/assets/js/146.34f59cc1.js"><link rel="prefetch" href="/assets/js/147.177581e4.js"><link rel="prefetch" href="/assets/js/148.04b0c43c.js"><link rel="prefetch" href="/assets/js/149.0c01bf2e.js"><link rel="prefetch" href="/assets/js/15.c52b23fe.js"><link rel="prefetch" href="/assets/js/150.08f055f5.js"><link rel="prefetch" href="/assets/js/151.aaebfd2a.js"><link rel="prefetch" href="/assets/js/152.0b94556e.js"><link rel="prefetch" href="/assets/js/153.e64b2274.js"><link rel="prefetch" href="/assets/js/154.ca94bba6.js"><link rel="prefetch" href="/assets/js/155.7fb4c756.js"><link rel="prefetch" href="/assets/js/156.a7b324e8.js"><link rel="prefetch" href="/assets/js/157.8147f690.js"><link rel="prefetch" href="/assets/js/158.86b724eb.js"><link rel="prefetch" href="/assets/js/159.49e90b7f.js"><link rel="prefetch" href="/assets/js/16.5f47e766.js"><link rel="prefetch" href="/assets/js/160.f4bb0b5c.js"><link rel="prefetch" href="/assets/js/161.c3aebed4.js"><link rel="prefetch" href="/assets/js/162.5efd48e9.js"><link rel="prefetch" href="/assets/js/163.54f2b441.js"><link rel="prefetch" href="/assets/js/164.af57c2b3.js"><link rel="prefetch" href="/assets/js/165.2c5ed165.js"><link rel="prefetch" href="/assets/js/166.fd21481e.js"><link rel="prefetch" href="/assets/js/167.75f9998d.js"><link rel="prefetch" href="/assets/js/168.230bd94b.js"><link rel="prefetch" href="/assets/js/169.ec6a90b0.js"><link rel="prefetch" href="/assets/js/17.cc1004df.js"><link rel="prefetch" href="/assets/js/170.6afb1123.js"><link rel="prefetch" href="/assets/js/171.0e4fad89.js"><link rel="prefetch" href="/assets/js/172.cbfaaa72.js"><link rel="prefetch" href="/assets/js/173.3a9c1742.js"><link rel="prefetch" href="/assets/js/174.fb3a64cb.js"><link rel="prefetch" href="/assets/js/175.ebb46747.js"><link rel="prefetch" href="/assets/js/176.ac193ab7.js"><link rel="prefetch" href="/assets/js/177.f6e9fdaa.js"><link rel="prefetch" href="/assets/js/178.f46b6f91.js"><link rel="prefetch" href="/assets/js/179.7dba20d5.js"><link rel="prefetch" href="/assets/js/18.f01f70f7.js"><link rel="prefetch" href="/assets/js/180.b5801fae.js"><link rel="prefetch" href="/assets/js/181.70711f9e.js"><link rel="prefetch" href="/assets/js/182.fef55e28.js"><link rel="prefetch" href="/assets/js/183.1d5041ef.js"><link rel="prefetch" href="/assets/js/184.98162bcd.js"><link rel="prefetch" href="/assets/js/185.9a3cd220.js"><link rel="prefetch" href="/assets/js/186.ef023f10.js"><link rel="prefetch" href="/assets/js/187.b354b258.js"><link rel="prefetch" href="/assets/js/188.dd3237b4.js"><link rel="prefetch" href="/assets/js/189.92403af8.js"><link rel="prefetch" href="/assets/js/19.821111a5.js"><link rel="prefetch" href="/assets/js/20.f18716a5.js"><link rel="prefetch" href="/assets/js/21.2ff3c34c.js"><link rel="prefetch" href="/assets/js/22.4e8f07b4.js"><link rel="prefetch" href="/assets/js/23.bcd549fd.js"><link rel="prefetch" href="/assets/js/24.3566ee32.js"><link rel="prefetch" href="/assets/js/25.bc80aff5.js"><link rel="prefetch" href="/assets/js/26.2ffe2b40.js"><link rel="prefetch" href="/assets/js/27.a4fba497.js"><link rel="prefetch" href="/assets/js/28.d540b25e.js"><link rel="prefetch" href="/assets/js/29.b4655efa.js"><link rel="prefetch" href="/assets/js/3.a6eefa2a.js"><link rel="prefetch" href="/assets/js/30.33d123f2.js"><link rel="prefetch" href="/assets/js/31.3ad9fb8d.js"><link rel="prefetch" href="/assets/js/32.7bc16f80.js"><link rel="prefetch" href="/assets/js/33.4ed63202.js"><link rel="prefetch" href="/assets/js/34.3e5cccd1.js"><link rel="prefetch" href="/assets/js/35.263c47e7.js"><link rel="prefetch" href="/assets/js/36.21ba4b70.js"><link rel="prefetch" href="/assets/js/37.8e806f7a.js"><link rel="prefetch" href="/assets/js/38.a1975cea.js"><link rel="prefetch" href="/assets/js/39.0dc40797.js"><link rel="prefetch" href="/assets/js/4.ba110346.js"><link rel="prefetch" href="/assets/js/40.64e30868.js"><link rel="prefetch" href="/assets/js/41.2ed4741c.js"><link rel="prefetch" href="/assets/js/42.33e7a9cf.js"><link rel="prefetch" href="/assets/js/43.4f7298be.js"><link rel="prefetch" href="/assets/js/44.1cca1a7c.js"><link rel="prefetch" href="/assets/js/45.3807a47c.js"><link rel="prefetch" href="/assets/js/46.e8673023.js"><link rel="prefetch" href="/assets/js/47.b6930374.js"><link rel="prefetch" href="/assets/js/48.21c8b29b.js"><link rel="prefetch" href="/assets/js/49.c24b8f7d.js"><link rel="prefetch" href="/assets/js/5.b1b62238.js"><link rel="prefetch" href="/assets/js/50.de52540f.js"><link rel="prefetch" href="/assets/js/51.51e8935b.js"><link rel="prefetch" href="/assets/js/52.764a4810.js"><link rel="prefetch" href="/assets/js/53.4fd16a27.js"><link rel="prefetch" href="/assets/js/54.9e4e5e8e.js"><link rel="prefetch" href="/assets/js/55.19498f95.js"><link rel="prefetch" href="/assets/js/56.97e51e08.js"><link rel="prefetch" href="/assets/js/57.b8585c2a.js"><link rel="prefetch" href="/assets/js/58.6bcd1fa9.js"><link rel="prefetch" href="/assets/js/59.4cf2a4ba.js"><link rel="prefetch" href="/assets/js/6.af2ce98f.js"><link rel="prefetch" href="/assets/js/60.3138f781.js"><link rel="prefetch" href="/assets/js/61.fb01fce0.js"><link rel="prefetch" href="/assets/js/62.a2d37812.js"><link rel="prefetch" href="/assets/js/63.9ae6f58f.js"><link rel="prefetch" href="/assets/js/64.3d33a00c.js"><link rel="prefetch" href="/assets/js/65.c0512c34.js"><link rel="prefetch" href="/assets/js/66.83acec58.js"><link rel="prefetch" href="/assets/js/67.1aec7cb0.js"><link rel="prefetch" href="/assets/js/68.6f70960b.js"><link rel="prefetch" href="/assets/js/69.2ea1450e.js"><link rel="prefetch" href="/assets/js/7.2abc6941.js"><link rel="prefetch" href="/assets/js/70.bb3d1273.js"><link rel="prefetch" href="/assets/js/71.832eeca5.js"><link rel="prefetch" href="/assets/js/72.33d37c49.js"><link rel="prefetch" href="/assets/js/73.115bc50b.js"><link rel="prefetch" href="/assets/js/74.4b9787b2.js"><link rel="prefetch" href="/assets/js/75.245025f5.js"><link rel="prefetch" href="/assets/js/76.5d2af7ba.js"><link rel="prefetch" href="/assets/js/77.71373d5a.js"><link rel="prefetch" href="/assets/js/78.deb0de68.js"><link rel="prefetch" href="/assets/js/79.f7a0055f.js"><link rel="prefetch" href="/assets/js/8.f6f470e4.js"><link rel="prefetch" href="/assets/js/80.88b51cad.js"><link rel="prefetch" href="/assets/js/81.63f4116d.js"><link rel="prefetch" href="/assets/js/83.6df7ac0b.js"><link rel="prefetch" href="/assets/js/84.cdbc404e.js"><link rel="prefetch" href="/assets/js/85.a59f62bd.js"><link rel="prefetch" href="/assets/js/86.855b16c0.js"><link rel="prefetch" href="/assets/js/87.5ea4316a.js"><link rel="prefetch" href="/assets/js/88.a912ffcd.js"><link rel="prefetch" href="/assets/js/89.53068f11.js"><link rel="prefetch" href="/assets/js/9.1577f86f.js"><link rel="prefetch" href="/assets/js/90.456927d1.js"><link rel="prefetch" href="/assets/js/91.c62f54d4.js"><link rel="prefetch" href="/assets/js/92.538067b0.js"><link rel="prefetch" href="/assets/js/93.8810ea15.js"><link rel="prefetch" href="/assets/js/94.f7dc0db4.js"><link rel="prefetch" href="/assets/js/95.3051fd29.js"><link rel="prefetch" href="/assets/js/96.506e8340.js"><link rel="prefetch" href="/assets/js/97.3e9c5b98.js"><link rel="prefetch" href="/assets/js/98.dfa52227.js"><link rel="prefetch" href="/assets/js/99.c2818170.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.6b0d51f2.css">
+  </head>
+  <body class="theme-mode-light">
+    <div id="app" data-server-rendered="true"><div class="theme-container sidebar-open have-rightmenu"><header class="navbar blur"><div title="目录" class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/img/logo.png" alt="角落小天地" class="logo"> <span class="site-name can-hide">角落小天地</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端" class="dropdown-title"><a href="/web/" class="link-title">前端</a> <span class="title" style="display:none;">前端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>前端文章</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pages/8143cc480faf9a11/" class="nav-link">JavaScript</a></li></ul></li><li class="dropdown-item"><h4>学习笔记</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/note/javascript/" class="nav-link">《JavaScript教程》</a></li><li class="dropdown-subitem"><a href="/note/js/" class="nav-link">《JavaScript高级程序设计》</a></li><li class="dropdown-subitem"><a href="/note/es6/" class="nav-link">《ES6 教程》</a></li><li class="dropdown-subitem"><a href="/note/vue/" class="nav-link">《Vue》</a></li><li class="dropdown-subitem"><a href="/note/react/" class="nav-link">《React》</a></li><li class="dropdown-subitem"><a href="/note/typescript-axios/" class="nav-link">《TypeScript 从零实现 axios》</a></li><li class="dropdown-subitem"><a href="/note/git/" class="nav-link">《Git》</a></li><li class="dropdown-subitem"><a href="/pages/51afd6/" class="nav-link">TypeScript</a></li><li class="dropdown-subitem"><a href="/pages/4643cd/" class="nav-link">JS设计模式总结</a></li></ul></li><li class="dropdown-item"><h4>页面</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pages/8309a5b876fc95e3/" class="nav-link">HTML</a></li><li class="dropdown-subitem"><a href="/pages/0a83b083bdf257cb/" class="nav-link">CSS</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="技术" class="dropdown-title"><a href="/technology/" class="link-title">技术</a> <span class="title" style="display:none;">技术</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/9a7ee40fc232253e/" class="nav-link">技术文档</a></li><li class="dropdown-item"><!----> <a href="/pages/4c778760be26d8b3/" class="nav-link">GitHub技巧</a></li><li class="dropdown-item"><!----> <a href="/pages/117708e0af7f0bd9/" class="nav-link">Nodejs</a></li><li class="dropdown-item"><!----> <a href="/pages/41f87d890d0a02af/" class="nav-link">博客搭建</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="运维" class="dropdown-title"><a href="/maintenance/" class="link-title">运维</a> <span class="title" style="display:none;">运维</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/c105e8/" class="nav-link">Docker</a></li><li class="dropdown-item"><!----> <a href="/pages/4c778760be26d8b3/" class="nav-link">GitHub技巧</a></li><li class="dropdown-item"><!----> <a href="/pages/117708e0af7f0bd9/" class="nav-link">Nodejs</a></li><li class="dropdown-item"><!----> <a href="/pages/41f87d890d0a02af/" class="nav-link">博客搭建</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="更多" class="dropdown-title"><a href="/more/" class="link-title">更多</a> <span class="title" style="display:none;">更多</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/f2a556/" class="nav-link">学习</a></li><li class="dropdown-item"><!----> <a href="/pages/aea6571b7a8bae86/" class="nav-link">面试</a></li><li class="dropdown-item"><!----> <a href="/pages/2d615df9a36a98ed/" class="nav-link">心情杂货</a></li><li class="dropdown-item"><!----> <a href="/pages/baaa02/" class="nav-link">实用技巧</a></li><li class="dropdown-item"><!----> <a href="/friends/" class="nav-link">友情链接</a></li></ul></div></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><a href="/pages/beb6c0bd8a66cea6/" class="nav-link">收藏</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/archives/" class="nav-link">归档</a></li></ul></div></div> <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar-hover-trigger"></div> <aside class="sidebar" style="display:none;"><div class="blogger"><img src="https://jsd.cdn.zzko.cn/gh/xugaoyi/image_store/blog/20200103123203.jpg"> <div class="blogger-info"><h3>Evan Xu</h3> <span>前端界的小学生</span></div></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端" class="dropdown-title"><a href="/web/" class="link-title">前端</a> <span class="title" style="display:none;">前端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>前端文章</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pages/8143cc480faf9a11/" class="nav-link">JavaScript</a></li></ul></li><li class="dropdown-item"><h4>学习笔记</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/note/javascript/" class="nav-link">《JavaScript教程》</a></li><li class="dropdown-subitem"><a href="/note/js/" class="nav-link">《JavaScript高级程序设计》</a></li><li class="dropdown-subitem"><a href="/note/es6/" class="nav-link">《ES6 教程》</a></li><li class="dropdown-subitem"><a href="/note/vue/" class="nav-link">《Vue》</a></li><li class="dropdown-subitem"><a href="/note/react/" class="nav-link">《React》</a></li><li class="dropdown-subitem"><a href="/note/typescript-axios/" class="nav-link">《TypeScript 从零实现 axios》</a></li><li class="dropdown-subitem"><a href="/note/git/" class="nav-link">《Git》</a></li><li class="dropdown-subitem"><a href="/pages/51afd6/" class="nav-link">TypeScript</a></li><li class="dropdown-subitem"><a href="/pages/4643cd/" class="nav-link">JS设计模式总结</a></li></ul></li><li class="dropdown-item"><h4>页面</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pages/8309a5b876fc95e3/" class="nav-link">HTML</a></li><li class="dropdown-subitem"><a href="/pages/0a83b083bdf257cb/" class="nav-link">CSS</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="技术" class="dropdown-title"><a href="/technology/" class="link-title">技术</a> <span class="title" style="display:none;">技术</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/9a7ee40fc232253e/" class="nav-link">技术文档</a></li><li class="dropdown-item"><!----> <a href="/pages/4c778760be26d8b3/" class="nav-link">GitHub技巧</a></li><li class="dropdown-item"><!----> <a href="/pages/117708e0af7f0bd9/" class="nav-link">Nodejs</a></li><li class="dropdown-item"><!----> <a href="/pages/41f87d890d0a02af/" class="nav-link">博客搭建</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="运维" class="dropdown-title"><a href="/maintenance/" class="link-title">运维</a> <span class="title" style="display:none;">运维</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/c105e8/" class="nav-link">Docker</a></li><li class="dropdown-item"><!----> <a href="/pages/4c778760be26d8b3/" class="nav-link">GitHub技巧</a></li><li class="dropdown-item"><!----> <a href="/pages/117708e0af7f0bd9/" class="nav-link">Nodejs</a></li><li class="dropdown-item"><!----> <a href="/pages/41f87d890d0a02af/" class="nav-link">博客搭建</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="更多" class="dropdown-title"><a href="/more/" class="link-title">更多</a> <span class="title" style="display:none;">更多</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/f2a556/" class="nav-link">学习</a></li><li class="dropdown-item"><!----> <a href="/pages/aea6571b7a8bae86/" class="nav-link">面试</a></li><li class="dropdown-item"><!----> <a href="/pages/2d615df9a36a98ed/" class="nav-link">心情杂货</a></li><li class="dropdown-item"><!----> <a href="/pages/baaa02/" class="nav-link">实用技巧</a></li><li class="dropdown-item"><!----> <a href="/friends/" class="nav-link">友情链接</a></li></ul></div></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><a href="/pages/beb6c0bd8a66cea6/" class="nav-link">收藏</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/archives/" class="nav-link">归档</a></li></ul></div></div> <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Docker</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>NGINX</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/0ce5a3/" aria-current="page" class="active sidebar-link">nginx的https证书自动续期</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_1-安装-acme-客户端" class="sidebar-link">1. 安装 acme 客户端</a></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_2-生成证书" class="sidebar-link">2. 生成证书</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_2-1-采用文件验证方式生成证书" class="sidebar-link">2.1 采用文件验证方式生成证书</a></li><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_2-2-采用dns-验证方式生成证书" class="sidebar-link">2.2 采用dns 验证方式生成证书</a></li><li class="sidebar-sub-header level4"><a href="/pages/0ce5a3/#_2-2-1-配置-dns-提供商的dns-api-key" class="sidebar-link">2.2.1 配置 DNS 提供商的DNS API key</a></li><li class="sidebar-sub-header level4"><a href="/pages/0ce5a3/#_2-2-2-配置系统环境变量" class="sidebar-link">2.2.2 配置系统环境变量</a></li><li class="sidebar-sub-header level4"><a href="/pages/0ce5a3/#_2-2-3-生成证书" class="sidebar-link">2.2.3 生成证书</a></li><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_2-3-选择ca服务器" class="sidebar-link">2.3 选择CA服务器</a></li></ul></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_3-安装证书" class="sidebar-link">3. 安装证书</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_3-1-安装证书" class="sidebar-link">3.1 安装证书</a></li><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_3-2-配置nginx" class="sidebar-link">3.2 配置nginx</a></li></ul></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_4-自动续期" class="sidebar-link">4. 自动续期</a></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_5-手动更新证书" class="sidebar-link">5. 手动更新证书</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_5-1-通过-acme-sh-的-renew-指令" class="sidebar-link">5.1 通过 acme.sh 的 renew 指令</a></li><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#_5-2-通过定时任务执行" class="sidebar-link">5.2 通过定时任务执行</a></li></ul></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_6-查看证书列表" class="sidebar-link">6. 查看证书列表</a></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_7-删除证书" class="sidebar-link">7. 删除证书</a></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_8-更新-acme-sh" class="sidebar-link">8. 更新 acme.sh</a></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_9-检测网站的安全级别" class="sidebar-link">9. 检测网站的安全级别</a></li><li class="sidebar-sub-header level2"><a href="/pages/0ce5a3/#_10-其它资料" class="sidebar-link">10. 其它资料</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/0ce5a3/#freessl-cn官方提供的证书自动续期方案" class="sidebar-link">freessl.cn官方提供的证书自动续期方案</a></li></ul></li></ul></li></ul></section></li></ul> </aside> <div><main class="page"><div class="theme-vdoing-wrapper "><div class="articleInfo-wrap" data-v-06225672><div class="articleInfo" data-v-06225672><ul class="breadcrumbs" data-v-06225672><li data-v-06225672><a href="/" title="首页" class="iconfont icon-home router-link-active" data-v-06225672></a></li> <li data-v-06225672><a href="/categories/?category=%E8%BF%90%E7%BB%B4" title="分类" data-v-06225672>运维</a></li><li data-v-06225672><a href="/categories/?category=NGINX" title="分类" data-v-06225672>NGINX</a></li></ul> <div class="info" data-v-06225672><div title="作者" class="author iconfont icon-touxiang" data-v-06225672><a href="https://github.com/xiake23" target="_blank" title="作者" class="beLink" data-v-06225672>czb</a></div> <div title="创建时间" class="date iconfont icon-riqi" data-v-06225672><a href="javascript:;" data-v-06225672>2024-09-13</a></div> <!----></div></div></div> <!----> <div class="content-wrapper"><div class="right-menu-wrapper"><div class="right-menu-margin"><div class="right-menu-title">目录</div> <div class="right-menu-content"></div></div></div> <h1><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAABH1JREFUSA3tVl1oHFUUPmdmd2ltklqbpJDiNnXFmgbFktho7YMPNiJSSZM0+CAYSkUELVhM6YuwIPpgoOKDqOBDC0XE2CQoNtQXBUFTTcCi+Wlh1V2TQExsUzcltd3M9Tt3ZjZzZ2fT+OJTL8yeM+eee757fmeJbq//KQL8X3DUSFOcfr7cRsRtxNQMWueeVzOkaITIGqQHNg5y8+jNW9ldM7A6nTpAjuolUikAwq7CE3WcM2RRDz+XGVgN3FptU/aUSlvq9Pa3iZ1+sgAqJyyAFqkipd9dqiwHF3P65YycLWc/6sqGrvoEoIp6DOFaX5h6+dnfjkWprwqsPk0dUGq5vySwDImC10KxFHgGL1SWoc92O3eVht09qdXNH11I2SsTsJYqMWzihqGMi+A+Garf3BAuuLI5oGlULyNfyB/HYNujwktOfRrMr5t77NmevqaUopx0grnKAyvVpmwUDB4x6FPXuGvYLTDwWsejwgtgkYKPqRJg8SV6xaiZ3ZTppGneS4yfH5/66fZSDHv+QZci/+h5c5UHtpy67JUqGppM0sh0Nc1dW6/N1W5Yoqat8/TU/VnadmdeW2PLLSyh0cvxBs3KbqTmwYPpxN4do/mzE8nEpvX/UMu2Wbp74zUAK5q6WkHns7V0eWkdPbPzd3rxkTGybadYySumVzhcaJFbs5UrEkQ/+CK8gF5dnh/6ciIZ73gwQ927L1IitoxKLXYP3SjYdOrHHfTZhRRlFyrorafPk20B3HPD1y2G3qKZME5Jcf3t/HUC13/8tSd++vqFveMUTwAUxSUFI1QekR1+bIze3D9MF2aq6cPvG72CgnldWCFqyRw3lwH8ZMerjTD9ElRO7Gv44wNpC90aASqGfVlz/Rx17srQ57/UU26hkhQqUB7dBR71WmzQhHUnblGmVOEw0jhbV1n9OlXUDCIRGaNV5Jp43N516fN7JmnTHdfp7Hgy0luO4aMhtkLL8Bi3bUWYvzh5Mn1dTxrL6QmGuRhGL/TiTTxRoEdTszSaq9GR0NGA3KdkOz3hqSV3MIDhQ5IVX/Ivx3umBti2es2h4eZby7x8br1rkf7Mo90AqC8aQ3sJeNzqFRu+vSANAQe3PL7l0HGOAdwDCeZYvNKeoZp1Qfs6Aipndh86HmFRi0LAnEO47wsqM6cdfjh3jBPUzhZy7nvlUfFsamED1VQt6aISHVymXZ/B2aCtIG8AI8xfobj2d3en1wWVhOeHELKmLQ1s211s88comkv4UCwWyF787mJdYXtNfhKAXVqnKTq8QZvGAGGOfaTo5pGZ/PwbUCr5+DPr/1J92JNHr9aOl/F3iI5+O1nfybsGxoimvZ3ViWSluDITw3P37mypheDIPY0tw7+O/5ApbkYw+zpfaUVu32Pi98+defdUhEpZkRFq0aqyNh9FuL9hpYbEm6iwi0z2REd09ZmyENEbuhjDWzKvZXTqKYaBIr3tt5kuPtQBZFvEUwHt60vfCNu41XsksH9Ij1BMMz1Y0OOunHNShFIP5868g5zeXmuLwL9T4b6Q2+KejgAAAABJRU5ErkJggg==">nginx的https证书自动续期<!----></h1>  <div class="theme-vdoing-content content__default"><h1 id="nginx的https证书自动续期"><a href="#nginx的https证书自动续期" class="header-anchor">#</a> nginx的https证书自动续期</h1> <p>本文讲述 nginx 的 https 证书如何自动续期。顺便讲述如何手动续期，如何方便地管理所有域名证书。有很多实现方案，包括收费方案和免费方案，本文采用的是 acme.sh 方案。</p> <h2 id="_1-安装-acme-客户端"><a href="#_1-安装-acme-客户端" class="header-anchor">#</a> 1. 安装 acme 客户端</h2> <blockquote><p>需要将系统环境切换到root用户下执行，否则安装证书时可能会失败。</p></blockquote> <p>acme 客户端实际上就是个 shell 脚本，执行如下命令完成安装(若出现网络错误，反复重复直到成功即可)。
+curl https://get.acme.sh | sh</p> <blockquote><p>若访问如上官方脚本较慢，可以使用如下国内镜像地址<code>curl https://gitcode.net/cert/cn-acme.sh/-/raw/master/install.sh?inline=false | sh</code></p></blockquote> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ nginx]# curl  https://get.acme.sh | sh
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   775    0   775    0     0    145      0 --:--:--  0:00:05 --:--:--   160
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  201k  100  201k    0     0  18804      0  0:00:10  0:00:10 --:--:-- 19012
+[2020年 11月 02日 星期一 16:12:52 CST] Installing from online archive.
+[2020年 11月 02日 星期一 16:12:52 CST] Downloading https://github.com/acmesh-official/acme.sh/archive/master.tar.gz
+[2020年 11月 02日 星期一 16:13:10 CST] Extracting master.tar.gz
+[2020年 11月 02日 星期一 16:13:10 CST] It is recommended to install socat first.
+[2020年 11月 02日 星期一 16:13:10 CST] We use socat for standalone server if you use standalone mode.
+[2020年 11月 02日 星期一 16:13:10 CST] If you don't use standalone mode, just ignore this warning.
+[2020年 11月 02日 星期一 16:13:10 CST] Installing to /root/.acme.sh
+[2020年 11月 02日 星期一 16:13:10 CST] Installed to /root/.acme.sh/acme.sh
+[2020年 11月 02日 星期一 16:13:10 CST] Installing alias to '/root/.bashrc'
+[2020年 11月 02日 星期一 16:13:10 CST] OK, Close and reopen your terminal to start using acme.sh
+[2020年 11月 02日 星期一 16:13:10 CST] Installing alias to '/root/.cshrc'
+[2020年 11月 02日 星期一 16:13:10 CST] Installing alias to '/root/.tcshrc'
+[2020年 11月 02日 星期一 16:13:10 CST] Installing cron job
+[2020年 11月 02日 星期一 16:13:10 CST] Good, bash is found, so change the shebang to use bash as preferred.
+[2020年 11月 02日 星期一 16:13:10 CST] OK
+[2020年 11月 02日 星期一 16:13:10 CST] Install success!
+[root@iZ2ze7011et12xez70sp3dZ nginx]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><blockquote><p>acme 依赖定时任务, 所以若系统没有安装 cron 服务，安装会失败，并提示您安装 cron 服务。</p></blockquote> <p>如上的安装过程中，会:</p> <ul><li>自动创建目录~/.acme.sh/
+最终的 acme 客户端路径为~/.acme.sh/acme.sh
+执行~/.acme.sh/acme.sh -v, 查看客户端版本</li></ul> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ nginx]# ~/.acme.sh/acme.sh -v
+https://github.com/acmesh-official/acme.sh
+v2.8.8
+[root@iZ2ze7011et12xez70sp3dZ nginx]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><ul><li>自动创建 alias 别名 acme.sh
+这样在执行脚本/root/.acme.sh/acme.sh 的时候就没必要填写完整路径，只需要执行 acme.sh 即可识别。</li></ul> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ nginx]# alias
+alias acme.sh='/root/.acme.sh/acme.sh'
+alias cp='cp -i'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias l.='ls -d .* --color=auto'
+alias ll='ls -l --color=auto'
+alias ls='ls --color=auto'
+alias mv='mv -i'
+alias rm='rm -i'
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+[root@iZ2ze7011et12xez70sp3dZ nginx]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><ul><li>自动创建 cronjob 定时任务, 每天定时自动检测所有的证书，如果快过期了，则会自动更新证书。
+执行<strong>crontab -l</strong>，查看当前的定时任务列表，发现已经被自动增加了 acme 脚本的定时任务。</li></ul> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ nginx]# crontab -l
+10 0 * * * &quot;/root/.acme.sh&quot;/acme.sh --cron --home &quot;/root/.acme.sh&quot; &gt; /dev/null
+[root@iZ2ze7011et12xez70sp3dZ nginx]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h2 id="_2-生成证书"><a href="#_2-生成证书" class="header-anchor">#</a> 2. 生成证书</h2> <blockquote><p>证书的验证支持<strong>文件验证</strong>或 <strong>dns 验证</strong>，2 种方式采用其中一种即可。推荐采用 dns 验证，dns 验证的优势如下:</p> <ol><li>支持<strong>泛域名</strong>证书的验证，但是<strong>文件验证</strong>方式不支持<strong>泛域名</strong>。</li> <li>生成证书的操作在机器选择上更灵活，采用 dns 验证可以在任何机器上生成证书，但是采用文件验证就只能在域名所属服务器上生成证书(因为需要指定 nginx 发布根目录)。</li></ol></blockquote> <p><strong>注意:</strong> 无论采用哪种验证方式，在验证过程中会自动校验http域名是否有效。所以在进入该步骤的前提：您的域名可以通过http正常访问。</p> <h3 id="_2-1-采用文件验证方式生成证书"><a href="#_2-1-采用文件验证方式生成证书" class="header-anchor">#</a> 2.1 采用<strong>文件验证</strong>方式生成证书</h3> <blockquote><ol><li>采用<strong>文件验证方式</strong>，会要求指定 web 根目录(acme 会自动在根目录下生成校验文件，然后通过域名访问校验文件，待证书验证完成后自动删除校验文件), 所以采用这种方式生成证书，一般需要在域名所在服务器上操作。</li> <li>当然，执行本操作之前，您必须要确保该域名的http服务是可以正常访问的，因为验证过程中会使用http服务做验证。</li></ol></blockquote> <p>执行如下命令 ~/.acme.sh/acme.sh --issue -d sofineday.com -d www.sofineday.com --webroot /static-file/blog/</p> <p><strong>参数的含义</strong>:</p> <ul><li>--issue 是 acme.sh 脚本用来颁发证书的指令</li> <li>-d 是--domain 的简称，其后面填写要续期的域名　　 acme.sh 支持多个域名共用同一个证书。
+如上命令生成的证书可同时用于 sofineday.com 和 www.sofineday.com。</li> <li>-w 是--webroot 的简称，其后面须填写网站的根目录</li></ul> <p>证书的实际生成过程如下:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>root@ff939cf2d477:~# ~/.acme.sh/acme.sh  --issue  -d sofineday.com -d www.sofineday.com  --webroot /static-file/blog/
+[Mon Nov  2 09:34:37 UTC 2020] Using CA: https://acme-v02.api.letsencrypt.org/directory
+[Mon Nov  2 09:34:37 UTC 2020] Create account key ok.
+[Mon Nov  2 09:34:37 UTC 2020] Registering account: https://acme-v02.api.letsencrypt.org/directory
+[Mon Nov  2 09:34:39 UTC 2020] Registered
+[Mon Nov  2 09:34:39 UTC 2020] ACCOUNT_THUMBPRINT='J2XJiPj7rSQ4wODVXqtkbk5G3j3Jk6fVuw0j2EYNQr8'
+[Mon Nov  2 09:34:39 UTC 2020] Creating domain key
+[Mon Nov  2 09:34:39 UTC 2020] The domain key is here: /root/.acme.sh/sofineday.com/sofineday.com.key
+[Mon Nov  2 09:34:39 UTC 2020] Multi domain='DNS:sofineday.com,DNS:www.sofineday.com'
+[Mon Nov  2 09:34:40 UTC 2020] Getting domain auth token for each domain
+[Mon Nov  2 09:34:42 UTC 2020] Getting webroot for domain='sofineday.com'
+[Mon Nov  2 09:34:42 UTC 2020] Getting webroot for domain='www.sofineday.com'
+[Mon Nov  2 09:34:42 UTC 2020] Verifying: sofineday.com
+[Mon Nov  2 09:34:46 UTC 2020] Success
+[Mon Nov  2 09:34:46 UTC 2020] Verifying: www.sofineday.com
+[Mon Nov  2 09:34:50 UTC 2020] Pending
+[Mon Nov  2 09:34:53 UTC 2020] Pending
+[Mon Nov  2 09:34:57 UTC 2020] Pending
+[Mon Nov  2 09:35:00 UTC 2020] Pending
+[Mon Nov  2 09:35:03 UTC 2020] Pending
+[Mon Nov  2 09:35:07 UTC 2020] Pending
+[Mon Nov  2 09:35:10 UTC 2020] Pending
+[Mon Nov  2 09:35:12 UTC 2020] Pending
+[Mon Nov  2 09:35:15 UTC 2020] Pending
+[Mon Nov  2 09:35:18 UTC 2020] Pending
+[Mon Nov  2 09:35:21 UTC 2020] Pending
+[Mon Nov  2 09:35:24 UTC 2020] Pending
+[Mon Nov  2 09:35:27 UTC 2020] Pending
+[Mon Nov  2 09:35:30 UTC 2020] Pending
+[Mon Nov  2 09:35:32 UTC 2020] Pending
+[Mon Nov  2 09:35:35 UTC 2020] Success
+[Mon Nov  2 09:35:35 UTC 2020] Verify finished, start to sign.
+[Mon Nov  2 09:35:35 UTC 2020] Lets finalize the order.
+[Mon Nov  2 09:35:35 UTC 2020] Le_OrderFinalize='https://acme-v02.api.letsencrypt.org/acme/finalize/101076451/5997675384'
+[Mon Nov  2 09:35:36 UTC 2020] Downloading cert.
+[Mon Nov  2 09:35:36 UTC 2020] Le_LinkCert='https://acme-v02.api.letsencrypt.org/acme/cert/03a494dee4d14855d98ee65a117330602f7b'
+[Mon Nov  2 09:35:37 UTC 2020] Cert success.
+-----BEGIN CERTIFICATE-----
+MIIFZDCCBEygAwIBAgISA6SU3uTRSFXZjuZaEXMwYC97MA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDExMDIwODM1MzZaFw0y
+MTAxMzEwODM1MzZaMBgxFjAUBgNVBAMTDXNvZmluZWRheS5jb20wggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQCs+qLKD9XM+HZ9s9rFNnoN+6s/+NAgbD4A
+N7J2v2x19EGI68V+3p4PfJ9mC/hyPGOE/S09Is+h3gI1q5G9ePExbeImUnuhTfid
+9IOq9wf26EmqGj0Q2wXxP5QQf1kBQvweX/bel5xun9s8UdqDhOQnDEFhWRue4DHB
+Fmdme7bl0dtSeuVM7AOTW9obUA2tz4h6zWPJY4vXTNcrnBst3CCzDOV3vivIO08z
+CqCapQGJleQTUM+OQNJ63vM63vA2YH1HmQx0h2HTrlCa4RcGaCudUO8p1uBjsi5N
+Da74KJHn8uAAKiGmNVxH3UfHptipj83tDl/gVYc8ImsxNcZkDQxZAgMBAAGjggJ0
+MIICcDAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUF
+BwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFIkCvyI57dP+OAsBKxndWaiV8IYQ
+MB8GA1UdIwQYMBaAFKhKamMEfd265tE5t6ZFZe/zqOyhMG8GCCsGAQUFBwEBBGMw
+YTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+ZzAvBggrBgEFBQcwAoYjaHR0cDovL2NlcnQuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+Zy8wKwYDVR0RBCQwIoINc29maW5lZGF5LmNvbYIRd3d3LnNvZmluZWRheS5jb20w
+TAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcC
+ARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0
+BIHxAO8AdgBvU3asMfAxGdiZAKRRFf93FRwR2QLBACkGjbIImjfZEwAAAXWIT9xE
+AAAEAwBHMEUCIC8k9sHNJLRPehn8rXklLCqPeH4xAfvhBF5SgLAmurIvAiEA0Csc
+tInX7h/WYncMNZArhZbzW0CWDGe5XaORBul36gAAdQD2XJQv0XcwIhRUGAgwlFaO
+400TGTO/3wwvIAvMTvFk4wAAAXWIT9wkAAAEAwBGMEQCIGQ6tViJ6Vy5ZUjTVLpg
+jynJ+faFUtTU+O1izPw3cvldAiB0J3OxmXMr8h3KdqmDFhJxSqa+hYd7TV4SkkEH
+nt3BjzANBgkqhkiG9w0BAQsFAAOCAQEAbEoKns5FpQj5VgxoYlS+StnJS/db5wnc
+6hnZ3Rya0X8huuOeprtWpFEH3qMIrCmXSsWJLmUaaJKRIAhTqRPsoLXf/HxT4IW2
+9xrW435RKxisSfD4EJ4pybbNunHFms+FjJY+m5a3ojDjpErz8FVSeo88811yXNBz
+rfv5Pyt6s+0gFg0gO8wB6SWbsNPGA0HvhBmlo8mVOr2l2jNuH0uIRROKgZXvK/V1
++bxpWUwAo5p/CSjFqWc7P/BPM3VQ/gHlkcpH37PWJDB+vzZkYzhuDc9hvxxR2/56
+86mbiykVKVvpK91imQy7sD0L1Rpv1kDNHhoBY5l3XBcr6gdv5STrpw==
+-----END CERTIFICATE-----
+[Mon Nov  2 09:35:37 UTC 2020] Your cert is in  /root/.acme.sh/sofineday.com/sofineday.com.cer
+[Mon Nov  2 09:35:37 UTC 2020] Your cert key is in  /root/.acme.sh/sofineday.com/sofineday.com.key
+[Mon Nov  2 09:35:37 UTC 2020] The intermediate CA cert is in  /root/.acme.sh/sofineday.com/ca.cer
+[Mon Nov  2 09:35:37 UTC 2020] And the full chain certs is there:  /root/.acme.sh/sofineday.com/fullchain.cer
+root@ff939cf2d477:~#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br></div></div><p>从以上生成过程可以看出，证书的生成位置为/root/.acme.sh/sofineday.com/目录。</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>root@ff939cf2d477:~# ls -l /root/.acme.sh/sofineday.com/
+total 28
+-rw-r--r-- 1 root root 1648 Nov  2 09:35 ca.cer
+-rw-r--r-- 1 root root 3579 Nov  2 09:35 fullchain.cer
+-rw-r--r-- 1 root root 1931 Nov  2 09:35 sofineday.com.cer
+-rw-r--r-- 1 root root  639 Nov  2 09:35 sofineday.com.conf
+-rw-r--r-- 1 root root  997 Nov  2 09:34 sofineday.com.csr
+-rw-r--r-- 1 root root  230 Nov  2 09:34 sofineday.com.csr.conf
+-rw-r--r-- 1 root root 1679 Nov  2 09:34 sofineday.com.key
+root@ff939cf2d477:~#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h3 id="_2-2-采用dns-验证方式生成证书"><a href="#_2-2-采用dns-验证方式生成证书" class="header-anchor">#</a> 2.2 采用<strong>dns 验证方式</strong>生成证书</h3> <h4 id="_2-2-1-配置-dns-提供商的dns-api-key"><a href="#_2-2-1-配置-dns-提供商的dns-api-key" class="header-anchor">#</a> 2.2.1 配置 DNS 提供商的<strong>DNS API key</strong></h4> <blockquote><p>本文以阿里云为例</p></blockquote> <ol><li>登录阿里云后台，进入个人中心的<strong>访问控制</strong>模块</li> <li>创建 <strong>dns api key</strong> <ul><li>安全起见，我们专门为当前 api 业务创建一个子用户，注意勾选<strong>编程访问</strong> <img src="https://pic-bed.sofineday.com/pic.red/blog_picBed2/raw/master/images/20201103093401.png" alt="aliyun 创建子用户"></li> <li>复制<strong>AccessKey ID</strong>和<strong>AccessKey Secret</strong>
+这 2 个值会在后面步骤用到</li> <li>为子用户添加权限 AliyunDNSFullAccess</li></ul></li></ol> <h4 id="_2-2-2-配置系统环境变量"><a href="#_2-2-2-配置系统环境变量" class="header-anchor">#</a> 2.2.2 配置系统环境变量</h4> <p>定义如下 2 个环境变量，变量值替换为上一步中从阿里云后台获取的 dns api key。</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>export Ali_Key=&quot;sdfsdfsdfljlbjkljlkjsdfoiwje&quot;
+export Ali_Secret=&quot;jlsdflanljkljlfdsaklkjflsa&quot;
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_2-2-3-生成证书"><a href="#_2-2-3-生成证书" class="header-anchor">#</a> 2.2.3 生成证书</h4> <p>执行如下命令，生成证书。将参数替换为实际值即可。</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>acme.sh --issue --dns dns_ali -d sofineday.com -d *.sofineday.com
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>执行过程如下:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ nginx]# acme.sh --issue --dns dns_ali -d sofineday.com -d *.sofineday.com
+[2020年 11月 03日 星期二 10:29:00 CST] Domains have changed.
+[2020年 11月 03日 星期二 10:29:00 CST] Using CA: https://acme-v02.api.letsencrypt.org/directory
+[2020年 11月 03日 星期二 10:29:00 CST] Multi domain='DNS:sofineday.com,DNS:*.sofineday.com'
+[2020年 11月 03日 星期二 10:29:00 CST] Getting domain auth token for each domain
+[2020年 11月 03日 星期二 10:29:05 CST] Getting webroot for domain='sofineday.com'
+[2020年 11月 03日 星期二 10:29:05 CST] Getting webroot for domain='*.sofineday.com'
+[2020年 11月 03日 星期二 10:29:05 CST] Adding txt value: D2YeIt9SuAvgUgBxot6qX6ezcwG8-Dv7eaNQY96fDow for domain:  _acme-challenge.sofineday.com
+[2020年 11月 03日 星期二 10:29:07 CST] The txt record is added: Success.
+[2020年 11月 03日 星期二 10:29:07 CST] Let's check each DNS record now. Sleep 20 seconds first.
+[2020年 11月 03日 星期二 10:29:28 CST] Checking sofineday.com for _acme-challenge.sofineday.com
+[2020年 11月 03日 星期二 10:29:31 CST] Domain sofineday.com '_acme-challenge.sofineday.com' success.
+[2020年 11月 03日 星期二 10:29:31 CST] All success, let's return
+[2020年 11月 03日 星期二 10:29:31 CST] sofineday.com is already verified, skip dns-01.
+[2020年 11月 03日 星期二 10:29:31 CST] Verifying: *.sofineday.com
+[2020年 11月 03日 星期二 10:29:35 CST] Success
+[2020年 11月 03日 星期二 10:29:35 CST] Removing DNS records.
+[2020年 11月 03日 星期二 10:29:35 CST] Removing txt: D2YeIt9SuAvgUgBxot6qX6ezcwG8-Dv7eaNQY96fDow for domain: _acme-challenge.sofineday.com
+[2020年 11月 03日 星期二 10:29:39 CST] Removed: Success
+[2020年 11月 03日 星期二 10:29:39 CST] Verify finished, start to sign.
+[2020年 11月 03日 星期二 10:29:39 CST] Lets finalize the order.
+[2020年 11月 03日 星期二 10:29:39 CST] Le_OrderFinalize='https://acme-v02.api.letsencrypt.org/acme/finalize/101071293/6009613602'
+[2020年 11月 03日 星期二 10:29:40 CST] Downloading cert.
+[2020年 11月 03日 星期二 10:29:40 CST] Le_LinkCert='https://acme-v02.api.letsencrypt.org/acme/cert/0307b969bcc3e239c2974cbc9497b1d42730'
+[2020年 11月 03日 星期二 10:29:41 CST] Cert success.
+-----BEGIN CERTIFICATE-----
+MIIFYzCCBEugAwIBAgISAwe5abzD4jnCl0y8lJex1CcwMA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDExMDMwMTI5NDBaFw0y
+MTAyMDEwMTI5NDBaMBgxFjAUBgNVBAMTDXNvZmluZWRheS5jb20wggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDfAdIati/JZFCEMmTXD4j2UgOwKbKynjHk
+ghcW0wA+YyNvIW/Y/kmN4fMk3qEslG6l/XXZ0Lv1IYYStRY70BlUUsHsJ/K/Mu0O
++EFcCBOfggOoZ8J6RCP1tU/erTq2JJTiWNmlQSqCq92SyJJvVdYYOBRrlMuxtBba
+8pPLjcpxeSO4iEqlNJh+VJNJE1Loh3X77zRBkLwlsetcI/DwKEn670M01l61XMG1
+QMX8RRkp+O4J8Hy6SJlEFv1a320pZJ9IA5D3x8YpgvKJzb5043aN0gPBJ37MVtJq
+Mw4NBh9gLk8JKNgbNgJPkJypggLXmGYiLLaFIZEPcoDtjF+xdQ+1AgMBAAGjggJz
+MIICbzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUF
+BwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFORKHDj/oRKs5nweoobwEffhV0T0
+MB8GA1UdIwQYMBaAFKhKamMEfd265tE5t6ZFZe/zqOyhMG8GCCsGAQUFBwEBBGMw
+YTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+ZzAvBggrBgEFBQcwAoYjaHR0cDovL2NlcnQuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+Zy8wKQYDVR0RBCIwIIIPKi5zb2ZpbmVkYXkuY29tgg1zb2ZpbmVkYXkuY29tMEwG
+A1UdIARFMEMwCAYGZ4EMAQIBMDcGCysGAQQBgt8TAQEBMCgwJgYIKwYBBQUHAgEW
+Gmh0dHA6Ly9jcHMubGV0c2VuY3J5cHQub3JnMIIBBAYKKwYBBAHWeQIEAgSB9QSB
+8gDwAHYAXNxDkv7mq0VEsV6a1FbmEDf71fpH3KFzlLJe5vbHDsoAAAF1i/BDCgAA
+BAMARzBFAiEA/4/3aI6i8hDRexD0lmhMTnEPZzp3+dIaEhRtNZiSetsCIBdqdotF
+yfi5uj3bcSBoJHfTUgAYLCTGJX4zJSB34rQgAHYA9lyUL9F3MCIUVBgIMJRWjuNN
+Exkzv98MLyALzE7xZOMAAAF1i/BDCgAABAMARzBFAiEA3RVYNLqFuEy985akbyOV
+ICG2ztPbZpWUPZYymjRABxkCIGi3cqZkBOAuZUmS2U/8Qd27vlOQpL4XgMmM/24T
+qwjrMA0GCSqGSIb3DQEBCwUAA4IBAQBMkWf9jdxzdXc1G1ZE9lJELAsSDjbS79Dv
+5fgz2E/EkFaEoPKVUWGMco3j6N1zfhqBOgwXEZdl1HPa+F4RRaCRh2cjodFzm0Xe
+r9lE9H95ZhePfYuiMWEibIV6jDOWJBqqOjml9pvQXpFdnqIiwAZ6Bj5GiM6ggiZu
+GswmpY/bzwj9YLf9f5VJbRSD4dLm28GRrJGL8sezPZUON44F3I9NbB01JIFPGYkf
+8rhwJFcdEg00micTjsdb21/JaRaG9WBcXCjuGF+3z7rsIvK4ZxltkNqUmvD+c44W
+DleXTCzniMPbjugvDF+T1wf1mGM9MsBmuuTGLAPvCLjvYTKOtW48
+-----END CERTIFICATE-----
+[2020年 11月 03日 星期二 10:29:41 CST] Your cert is in  /root/.acme.sh/sofineday.com/sofineday.com.cer
+[2020年 11月 03日 星期二 10:29:41 CST] Your cert key is in  /root/.acme.sh/sofineday.com/sofineday.com.key
+[2020年 11月 03日 星期二 10:29:41 CST] The intermediate CA cert is in  /root/.acme.sh/sofineday.com/ca.cer
+[2020年 11月 03日 星期二 10:29:41 CST] And the full chain certs is there:  /root/.acme.sh/sofineday.com/fullchain.cer
+[root@iZ2ze7011et12xez70sp3dZ nginx]#
+[root@iZ2ze7011et12xez70sp3dZ nginx]# acme.sh --list
+Main_Domain    KeyLength  SAN_Domains      CA               Created                               Renew
+sofineday.com  &quot;&quot;         *.sofineday.com  LetsEncrypt.org  2020年 11月 03日 星期二 02:29:41 UTC  2021年 01月 02日 星期六 02:29:41 UTC
+[root@iZ2ze7011et12xez70sp3dZ nginx]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br></div></div><blockquote><p>默认 acme.sh 会在证书生成 60 天后执行续期(您可以通过 acme.sh --list 输出的 Created 和 Renew 列看出)。若想对该值做自定义，指定--days 参数即可，如: <strong><code>acme.sh --issue --dns dns_ali -d sofineday.com -d \*.sofineday.com --days 90</code></strong></p></blockquote> <h3 id="_2-3-选择ca服务器"><a href="#_2-3-选择ca服务器" class="header-anchor">#</a> 2.3 选择CA服务器</h3> <p>当前最新版本的acme.sh，默认情况下使用的CA服务器是<code>zerossl</code>，那么在”生成证书命令“可能会执行失败，那么可以选择其他CA服务器。</p> <p>acme.sh支持4个CA服务器，分别是 Let's Encrypt、Buypass、ZeroSSL 和 SSL.com，默认使用 ZeroSSL。
+对应的设置命令如下：</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>acme.sh --set-default-ca --server letsencrypt
+acme.sh --set-default-ca --server buypass
+acme.sh --set-default-ca --server zerossl
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>示例如下:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>root@VM-0-6-ubuntu:~# acme.sh --issue --dns dns_ali -d sofineday.com -d *.sofineday.com
+[Sat 09 Apr 2022 09:00:22 PM CST] Using CA: https://acme.zerossl.com/v2/DV90
+[Sat 09 Apr 2022 09:00:22 PM CST] Multi domain='DNS:sofineday.com,DNS:*.sofineday.com'
+[Sat 09 Apr 2022 09:00:22 PM CST] Getting domain auth token for each domain
+[Sat 09 Apr 2022 09:01:03 PM CST] Getting webroot for domain='sofineday.com'
+[Sat 09 Apr 2022 09:01:03 PM CST] Getting webroot for domain='*.sofineday.com'
+[Sat 09 Apr 2022 09:01:03 PM CST] Adding txt value: uart28HH2nrmXvUHuanWanlUcwQdijubkD2tBlvtBWM for domain:  _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:01:05 PM CST] The txt record is added: Success.
+[Sat 09 Apr 2022 09:01:05 PM CST] Adding txt value: 8vauPgEuUjFL124BNSG1-gqSzXtyKKKsa8uO19gICpA for domain:  _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:01:07 PM CST] The txt record is added: Success.
+[Sat 09 Apr 2022 09:01:07 PM CST] Let's check each DNS record now. Sleep 20 seconds first.
+[Sat 09 Apr 2022 09:01:28 PM CST] You can use '--dnssleep' to disable public dns checks.
+[Sat 09 Apr 2022 09:01:28 PM CST] See: https://github.com/acmesh-official/acme.sh/wiki/dnscheck
+[Sat 09 Apr 2022 09:01:28 PM CST] Checking sofineday.com for _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:01:31 PM CST] Domain sofineday.com '_acme-challenge.sofineday.com' success.
+[Sat 09 Apr 2022 09:01:31 PM CST] Checking sofineday.com for _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:01:33 PM CST] Domain sofineday.com '_acme-challenge.sofineday.com' success.
+[Sat 09 Apr 2022 09:01:33 PM CST] All success, let's return
+[Sat 09 Apr 2022 09:01:33 PM CST] Verifying: sofineday.com
+[Sat 09 Apr 2022 09:01:38 PM CST] Processing, The CA is processing your order, please just wait. (1/30)
+[Sat 09 Apr 2022 09:01:50 PM CST] Success
+[Sat 09 Apr 2022 09:01:50 PM CST] Verifying: *.sofineday.com
+[Sat 09 Apr 2022 09:01:59 PM CST] Processing, The CA is processing your order, please just wait. (1/30)
+[Sat 09 Apr 2022 09:02:15 PM CST] Success
+[Sat 09 Apr 2022 09:02:15 PM CST] Removing DNS records.
+[Sat 09 Apr 2022 09:02:15 PM CST] Removing txt: uart28HH2nrmXvUHuanWanlUcwQdijubkD2tBlvtBWM for domain: _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:02:18 PM CST] Removed: Success
+[Sat 09 Apr 2022 09:02:18 PM CST] Removing txt: 8vauPgEuUjFL124BNSG1-gqSzXtyKKKsa8uO19gICpA for domain: _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:02:20 PM CST] Removed: Success
+[Sat 09 Apr 2022 09:02:20 PM CST] Verify finished, start to sign.
+[Sat 09 Apr 2022 09:02:20 PM CST] Lets finalize the order.
+[Sat 09 Apr 2022 09:02:20 PM CST] Le_OrderFinalize='https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw/finalize'
+[Sat 09 Apr 2022 09:02:27 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:02:27 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:02:43 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:02:50 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:02:50 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:03:06 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:03:13 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:03:13 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:03:30 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:03:38 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:03:38 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:03:54 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:04:00 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:04:00 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:04:16 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:04:21 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:04:21 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:04:37 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:04:41 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:04:41 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:04:57 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:05:11 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:05:11 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:05:27 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:05:35 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:05:35 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:05:51 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:06:00 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:06:00 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:06:16 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:06:25 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:06:25 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:06:41 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:06:46 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:06:46 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:07:02 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:07:08 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:07:08 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:07:24 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:07:30 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:07:30 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:07:46 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:07:51 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:07:51 PM CST] Retry after: 15
+7
+
+[Sat 09 Apr 2022 09:08:07 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:08:15 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:08:15 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:08:31 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:08:38 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:08:38 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:08:54 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:09:02 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:09:02 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:09:18 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:09:28 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:09:28 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:09:44 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:09:51 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:09:51 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:10:07 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:10:15 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:10:15 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:10:31 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:10:39 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:10:39 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:10:55 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:11:04 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:11:04 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:11:20 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:11:30 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:11:30 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:11:46 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:11:55 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:11:55 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:12:11 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:12:17 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:12:17 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:12:33 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:12:38 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:12:38 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:12:54 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:13:02 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:13:02 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:13:18 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:13:24 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:13:24 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:13:40 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:13:50 PM CST] Order status is processing, lets sleep and retry.
+[Sat 09 Apr 2022 09:13:50 PM CST] Retry after: 15
+[Sat 09 Apr 2022 09:14:06 PM CST] Polling order status: https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw
+[Sat 09 Apr 2022 09:14:16 PM CST] Sign failed, can not get Le_LinkCert, retry time limit.
+[Sat 09 Apr 2022 09:14:16 PM CST] {&quot;status&quot;:&quot;processing&quot;,&quot;expires&quot;:&quot;2022-07-08T13:00:44Z&quot;,&quot;identifiers&quot;:[{&quot;type&quot;:&quot;dns&quot;,&quot;value&quot;:&quot;sofineday.com&quot;},{&quot;type&quot;:&quot;dns&quot;,&quot;value&quot;:&quot;*.sofineday.com&quot;}],&quot;authorizations&quot;:[&quot;https://acme.zerossl.com/v2/DV90/authz/uNHGSChx4Y0zPX0-CjoPqQ&quot;,&quot;https://acme.zerossl.com/v2/DV90/authz/ArKxq9XJFIex2A675unajg&quot;],&quot;finalize&quot;:&quot;https://acme.zerossl.com/v2/DV90/order/9P4RbhWgIVoaIPvAuCh5zw/finalize&quot;}
+[Sat 09 Apr 2022 09:14:16 PM CST] Please add '--debug' or '--log' to check more details.
+[Sat 09 Apr 2022 09:14:16 PM CST] See: https://github.com/acmesh-official/acme.sh/wiki/How-to-debug-acme.sh
+root@VM-0-6-ubuntu:~#
+root@VM-0-6-ubuntu:~#
+root@VM-0-6-ubuntu:~# acme.sh --issue --dns dns_ali -d sofineday.com -d *.sofineday.com --server letsencrypt
+[Sat 09 Apr 2022 09:17:44 PM CST] Using CA: https://acme-v02.api.letsencrypt.org/directory
+[Sat 09 Apr 2022 09:17:44 PM CST] Create account key ok.
+[Sat 09 Apr 2022 09:17:44 PM CST] Registering account: https://acme-v02.api.letsencrypt.org/directory
+[Sat 09 Apr 2022 09:17:51 PM CST] Registered
+[Sat 09 Apr 2022 09:17:51 PM CST] ACCOUNT_THUMBPRINT='Vqg9KL25_J013ZSP2sjqGyWV1iQ9pTEml2LbJ5XtlpA'
+[Sat 09 Apr 2022 09:17:51 PM CST] Multi domain='DNS:sofineday.com,DNS:*.sofineday.com'
+[Sat 09 Apr 2022 09:17:51 PM CST] Getting domain auth token for each domain
+[Sat 09 Apr 2022 09:17:55 PM CST] Getting webroot for domain='sofineday.com'
+[Sat 09 Apr 2022 09:17:55 PM CST] Getting webroot for domain='*.sofineday.com'
+[Sat 09 Apr 2022 09:17:55 PM CST] Adding txt value: J6Fijfd78wgVKOqQ9AZzhMzlq60WwCeuHCXxr0ao80I for domain:  _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:17:58 PM CST] The txt record is added: Success.
+[Sat 09 Apr 2022 09:17:58 PM CST] Adding txt value: vl7Dmv3I3K83yeVwUQUg6l9SGpzhj0c06W87cyhwdhc for domain:  _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:17:59 PM CST] The txt record is added: Success.
+[Sat 09 Apr 2022 09:17:59 PM CST] Let's check each DNS record now. Sleep 20 seconds first.
+[Sat 09 Apr 2022 09:18:21 PM CST] You can use '--dnssleep' to disable public dns checks.
+[Sat 09 Apr 2022 09:18:21 PM CST] See: https://github.com/acmesh-official/acme.sh/wiki/dnscheck
+[Sat 09 Apr 2022 09:18:21 PM CST] Checking sofineday.com for _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:18:22 PM CST] Domain sofineday.com '_acme-challenge.sofineday.com' success.
+[Sat 09 Apr 2022 09:18:22 PM CST] Checking sofineday.com for _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:18:24 PM CST] Domain sofineday.com '_acme-challenge.sofineday.com' success.
+[Sat 09 Apr 2022 09:18:24 PM CST] All success, let's return
+[Sat 09 Apr 2022 09:18:24 PM CST] Verifying: sofineday.com
+[Sat 09 Apr 2022 09:18:24 PM CST] Pending, The CA is processing your order, please just wait. (1/30)
+[Sat 09 Apr 2022 09:18:28 PM CST] Success
+[Sat 09 Apr 2022 09:18:28 PM CST] Verifying: *.sofineday.com
+[Sat 09 Apr 2022 09:18:31 PM CST] Pending, The CA is processing your order, please just wait. (1/30)
+[Sat 09 Apr 2022 09:18:33 PM CST] Success
+[Sat 09 Apr 2022 09:18:33 PM CST] Removing DNS records.
+[Sat 09 Apr 2022 09:18:33 PM CST] Removing txt: J6Fijfd78wgVKOqQ9AZzhMzlq60WwCeuHCXxr0ao80I for domain: _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:18:36 PM CST] Removed: Success
+[Sat 09 Apr 2022 09:18:36 PM CST] Removing txt: vl7Dmv3I3K83yeVwUQUg6l9SGpzhj0c06W87cyhwdhc for domain: _acme-challenge.sofineday.com
+[Sat 09 Apr 2022 09:18:39 PM CST] Removed: Success
+[Sat 09 Apr 2022 09:18:39 PM CST] Verify finished, start to sign.
+[Sat 09 Apr 2022 09:18:39 PM CST] Lets finalize the order.
+[Sat 09 Apr 2022 09:18:39 PM CST] Le_OrderFinalize='https://acme-v02.api.letsencrypt.org/acme/finalize/489730070/78685657260'
+[Sat 09 Apr 2022 09:18:40 PM CST] Downloading cert.
+[Sat 09 Apr 2022 09:18:40 PM CST] Le_LinkCert='https://acme-v02.api.letsencrypt.org/acme/cert/03c0eb027c64ee2385bc63164c6859c78936'
+[Sat 09 Apr 2022 09:18:41 PM CST] Cert success.
+-----BEGIN CERTIFICATE-----
+MIIFMjCCBBqgAwIBAgISA8DrAnxk7iOFvGMWTGhZx4k2MA0GCSqGSIb3DQEBCwUA
+MDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQD
+EwJSMzAeFw0yMjA0MDkxMjE4MzlaFw0yMjA3MDgxMjE4MzhaMBgxFjAUBgNVBAMT
+DXNvZmluZWRheS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDA
+9Db5gZwDb5hDJrsVdjgWz8Vo3i8LdbJI+ekWZCaqd5bRkkiQlsG+eR7R8EFx523h
+a9gZIsKwRxfPHbtmhwi2dbEC5lp9JnHUwiyuGlj+7hWWD6tk+qJZDsNhGSNJLDHU
+aSQZPtHNLLgQe+4Ebza1YzZjrbckJYoLU9Z/QBW7bJ663HZPtqVgYmNPJp/6vRM/
+obU5nMeIiBtbKlKbLj/GiY6qfJZaTsFsKweXgWpKP3T2R+DUZzr+X/e74gRrfJvv
+M6GH4nlYfXQUDVMTPJr5mxucDIcfCF0GoI/HWDGygm+TP2IcCMB++brUiHWGFpBF
+BJzTuSmjz6rMXT2bMEp7AgMBAAGjggJaMIICVjAOBgNVHQ8BAf8EBAMCBaAwHQYD
+VR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0O
+BBYEFAfHx5ZjyHE2HFxemnD48j+U64F8MB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJ
+QOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3Iz
+Lm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcv
+MCkGA1UdEQQiMCCCDyouc29maW5lZGF5LmNvbYINc29maW5lZGF5LmNvbTBMBgNV
+HSAERTBDMAgGBmeBDAECATA3BgsrBgEEAYLfEwEBATAoMCYGCCsGAQUFBwIBFhpo
+dHRwOi8vY3BzLmxldHNlbmNyeXB0Lm9yZzCCAQUGCisGAQQB1nkCBAIEgfYEgfMA
+8QB3AEHIyrHfIkZKEMahOglCh15OMYsbA+vrS8do8JBilgb2AAABgA56B4EAAAQD
+AEgwRgIhAOfjvcPoqyBNuO8kp0xhg4TWYRd1tD8lkJpTNqjsHvydAiEAwVTCAgDm
+XpheyaepkfeDjg2/9lzd9mboO/yzziiqHNIAdgBGpVXrdfqRIDC1oolp9PN9ESxB
+dL79SbiFq/L8cP5tRwAAAYAOege7AAAEAwBHMEUCIQC/xWJZ35gtp0WjjAib7psE
+a0noXK4+zb9XyE/ksoligQIgLnncKjYGaX0vDSAgCktv86/xUMydFhU4QxKYwo6C
+fnowDQYJKoZIhvcNAQELBQADggEBALWb+zJkZPE27Xcsfepij5QUfbmQRgjUeJE3
+yawPYswWc+6CWQghlzr3dlXyT3ExAQxFi2t5N7cKneUaJtDO0tvDH/VaaEUgYpzE
+RvwW/v8pjYQVqyMduT881vFcz0rjZC5sAMKHtE1esrJrD2ApJVDG3dTB3i0S3L6l
+hEmmzBQdjK1NbIh3gpcpaHfwSjqr9zRIA/tKFqO0NUbx2tn4+XnO34AZMZOGjB+F
++WVf02er748xvDxqzVwIzIi9DQDz1t6ESMPQZC07o9VTl2vwxtWEq/ic5KmwpZhe
+1btv6iZJHEtZQE5WzPYGcxYPTsfg3OEYJSomr2KT0RntTKC6nVo=
+-----END CERTIFICATE-----
+[Sat 09 Apr 2022 09:18:41 PM CST] Your cert is in: /root/.acme.sh/sofineday.com/sofineday.com.cer
+[Sat 09 Apr 2022 09:18:41 PM CST] Your cert key is in: /root/.acme.sh/sofineday.com/sofineday.com.key
+[Sat 09 Apr 2022 09:18:41 PM CST] The intermediate CA cert is in: /root/.acme.sh/sofineday.com/ca.cer
+[Sat 09 Apr 2022 09:18:41 PM CST] And the full chain certs is there: /root/.acme.sh/sofineday.com/fullchain.cer
+root@VM-0-6-ubuntu:~#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br><span class="line-number">153</span><br><span class="line-number">154</span><br><span class="line-number">155</span><br><span class="line-number">156</span><br><span class="line-number">157</span><br><span class="line-number">158</span><br><span class="line-number">159</span><br><span class="line-number">160</span><br><span class="line-number">161</span><br><span class="line-number">162</span><br><span class="line-number">163</span><br><span class="line-number">164</span><br><span class="line-number">165</span><br><span class="line-number">166</span><br><span class="line-number">167</span><br><span class="line-number">168</span><br><span class="line-number">169</span><br><span class="line-number">170</span><br><span class="line-number">171</span><br><span class="line-number">172</span><br><span class="line-number">173</span><br><span class="line-number">174</span><br><span class="line-number">175</span><br><span class="line-number">176</span><br><span class="line-number">177</span><br><span class="line-number">178</span><br><span class="line-number">179</span><br><span class="line-number">180</span><br><span class="line-number">181</span><br><span class="line-number">182</span><br><span class="line-number">183</span><br><span class="line-number">184</span><br><span class="line-number">185</span><br><span class="line-number">186</span><br><span class="line-number">187</span><br><span class="line-number">188</span><br><span class="line-number">189</span><br><span class="line-number">190</span><br><span class="line-number">191</span><br><span class="line-number">192</span><br><span class="line-number">193</span><br><span class="line-number">194</span><br><span class="line-number">195</span><br><span class="line-number">196</span><br><span class="line-number">197</span><br><span class="line-number">198</span><br><span class="line-number">199</span><br><span class="line-number">200</span><br><span class="line-number">201</span><br><span class="line-number">202</span><br><span class="line-number">203</span><br><span class="line-number">204</span><br><span class="line-number">205</span><br><span class="line-number">206</span><br><span class="line-number">207</span><br></div></div><p>通过如上的真实示例可以看出，命令<code>acme.sh --issue --dns dns_ali -d sofineday.com -d *.sofineday.com</code>执行失败，改为<code>acme.sh --issue --dns dns_ali -d sofineday.com -d *.sofineday.com --server letsencrypt</code>后执行成功了。</p> <h2 id="_3-安装证书"><a href="#_3-安装证书" class="header-anchor">#</a> 3. 安装证书</h2> <h3 id="_3-1-安装证书"><a href="#_3-1-安装证书" class="header-anchor">#</a> 3.1 安装证书</h3> <p>执行如下命令将前面生成的证书安装到 nginx 中。本质上就是拷贝证书文件到 nginx 的证书目录下。
+<strong>该命令会被 ACME 记录下来，当做</strong>证书更新<strong>操作时，会自动执行该命令</strong></p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>acme.sh  --installcert -d sofineday.com \
+         --key-file /data/docker-service/nginx/cert/_.sofineday.com.private.key \
+         --fullchain-file /data/docker-service/nginx/cert/_.sofineday.com.full_chain.pem \
+         --reloadcmd &quot;docker cp /data/docker-service/nginx/cert/_.sofineday.com.private.key nginx:/etc/nginx/cert/ &amp;amp;&amp;amp; docker cp /data/docker-service/nginx/cert/_.sofineday.com.full_chain.pem nginx:/etc/nginx/cert/ &amp;amp;&amp;amp; docker exec -it nginx service nginx force-reload&quot;
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p><strong>命令参数的含义</strong>:</p> <ul><li>-d
+表示证书所属的域名</li> <li>--key-file
+复制前面生成的 .key 文件到哪个位置。
+一般为 nginx 配置文件中 ssl_certificate_key 指定的路径。</li> <li>--fullchain-file
+复制前面生成的 fullchain.cer 文件到哪个位置
+一般为 nginx 配置文件中 ssl_certificate 指定的路径。</li> <li>--reloadcmd
+执行完证书文件的复制操作后，<strong>还需要执行哪些命令</strong>才能将目标证书文件成功配置到 nginx 上。
+一般为 service nginx force-reload，强制重新加载配置文件即可启用最新的证书。
+该命令就很灵活了，甚至您可以在其它机器上完成证书的安装，然后再远程把证书文件同步到域名所在服务器上。</li></ul> <h3 id="_3-2-配置nginx"><a href="#_3-2-配置nginx" class="header-anchor">#</a> 3.2 配置nginx</h3> <p>修改nginx配置文件，开启443端口, 配置证书路径。
+配置方法详见<a href="https://www.sofineday.com/nginx-https.html" target="_blank" rel="noopener noreferrer">nginx配置https<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>。 修改完成后，执行<code>service nginx force-reload</code>重新加载配置。
+那么，您的网站支持https访问了。</p> <h2 id="_4-自动续期"><a href="#_4-自动续期" class="header-anchor">#</a> 4. 自动续期</h2> <p>acme.sh 已经自动安装了定时任务, 如下:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ ~]# crontab -l
+10 0 * * * &quot;/root/.acme.sh&quot;/acme.sh --cron --home &quot;/root/.acme.sh&quot; &gt; /dev/null
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>该定时任务会每日定时检查 1 次，如果<strong>证书更新时间</strong>已到，则会自动更新并安装证书。　　 可以通过<strong>acme.sh --list</strong>命令查看证书的<strong>下次更新时间</strong>(见 Renew 列)。</p> <blockquote><p>此处提到的<strong>证书更新时间</strong>和<strong>证书到期时间</strong>并非同一个概念，<strong>证书更新时间</strong>指的是执行证书更新的时间，而<strong>证书到期时间</strong>表示到了该时间后证书无效而导致无法通过 https 访问服务。</p></blockquote> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --list
+Main_Domain    KeyLength  SAN_Domains      CA               Created                               Renew
+sofineday.com  &quot;&quot;         *.sofineday.com  LetsEncrypt.org  2020年 11月 03日 星期二 02:29:41 UTC  2021年 01月 02日 星期六 02:29:41 UTC
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>我们先手工执行下定时任务的命令<code>&quot;/root/.acme.sh&quot;/acme.sh --cron --home &quot;/root/.acme.sh&quot;</code>，看下输出什么内容:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --list
+Main_Domain    KeyLength  SAN_Domains      CA               Created                               Renew
+sofineday.com  &quot;&quot;         *.sofineday.com  LetsEncrypt.org  2020年 11月 03日 星期二 08:44:52 UTC  2021年 01月 02日 星期六 08:44:52 UTC
+[root@iZ2ze7011et12xez70sp3dZ ~]# &quot;/root/.acme.sh&quot;/acme.sh --cron --home &quot;/root/.acme.sh&quot;
+[2020年 11月 03日 星期二 17:20:16 CST] ===Starting cron===
+[2020年 11月 03日 星期二 17:20:16 CST] Please refer to https://curl.haxx.se/libcurl/c/libcurl-errors.html for error code: 7
+[2020年 11月 03日 星期二 17:20:16 CST] Please refer to https://curl.haxx.se/libcurl/c/libcurl-errors.html for error code: 7
+[2020年 11月 03日 星期二 17:20:16 CST] Installing from online archive.
+[2020年 11月 03日 星期二 17:20:16 CST] Downloading https://github.com/acmesh-official/acme.sh/archive/master.tar.gz
+[2020年 11月 03日 星期二 17:20:22 CST] Extracting master.tar.gz
+[2020年 11月 03日 星期二 17:20:23 CST] Installing to /root/.acme.sh
+[2020年 11月 03日 星期二 17:20:23 CST] Installed to /root/.acme.sh/acme.sh
+[2020年 11月 03日 星期二 17:20:23 CST] Good, bash is found, so change the shebang to use bash as preferred.
+[2020年 11月 03日 星期二 17:20:23 CST] OK
+[2020年 11月 03日 星期二 17:20:23 CST] Install success!
+[2020年 11月 03日 星期二 17:20:24 CST] Upgrade success!
+[2020年 11月 03日 星期二 17:20:24 CST] Auto upgraded to: 2.8.8
+[2020年 11月 03日 星期二 17:20:24 CST] Renew: 'mydomain.com'
+[2020年 11月 03日 星期二 17:20:24 CST] 'mydomain.com' is not an issued domain, skip.
+[2020年 11月 03日 星期二 17:20:24 CST] Skipped mydomain.com
+[2020年 11月 03日 星期二 17:20:24 CST] Renew: 'sofineday.com'
+[2020年 11月 03日 星期二 17:20:24 CST] Skip, Next renewal time is: 2021年 01月 02日 星期六 08:44:52 UTC
+[2020年 11月 03日 星期二 17:20:24 CST] Add '--force' to force to renew.
+[2020年 11月 03日 星期二 17:20:24 CST] Skipped sofineday.com
+[2020年 11月 03日 星期二 17:20:24 CST] ===End cron===
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p>可以看出，默认情况下，需要到了预定的时间 2021 年 01 月 02 日 星期六 08:44:52 UTC(见 Renew 列，默认为证书生成后的 60 天,也可以自定义，前文有描述), 才会自动更新证书。若想强制更新证书，则需要增加--force 参数，见下一节的内容<a href="https://www.sofineday.com/nginx-https-auto-delay.html#5.-%E6%89%8B%E5%8A%A8%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6" target="_blank" rel="noopener noreferrer">手动更新证书<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h2 id="_5-手动更新证书"><a href="#_5-手动更新证书" class="header-anchor">#</a> 5. 手动更新证书</h2> <p>手动更新证书有多种方式:</p> <ul><li>通过 acme.sh 的 renew 指令</li> <li>通过定时任务执行</li></ul> <h3 id="_5-1-通过-acme-sh-的-renew-指令"><a href="#_5-1-通过-acme-sh-的-renew-指令" class="header-anchor">#</a> 5.1 通过 acme.sh 的 renew 指令</h3> <p>通过 renew 指令会比第 2 种方式更灵活。可以单独更新某个证书，也可以更新所有证书。</p> <ul><li>单独更新某个证书
+<code>acme.sh --renew --domain sofineday.com</code></li></ul> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --renew --domain sofineday.com
+[2020年 11月 03日 星期二 18:01:38 CST] Renew: 'sofineday.com'
+[2020年 11月 03日 星期二 18:01:38 CST] Skip, Next renewal time is: 2021年 01月 02日 星期六 08:44:52 UTC
+[2020年 11月 03日 星期二 18:01:38 CST] Add '--force' to force to renew.
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>因为更新时间没有到，所以没有执行更新操作。若想强制更新，则追加--force 参数:
+<code>acme.sh --renew --domain sofineday.com --force</code>
+执行过程如下:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[2020 年 11 月 03 日 星期二 18:03:22 CST] Renew: 'sofineday.com'
+[2020 年 11 月 03 日 星期二 18:03:23 CST] Using CA: https://acme-v02.api.letsencrypt.org/directory
+[2020 年 11 月 03 日 星期二 18:03:23 CST] Multi domain='DNS:sofineday.com,DNS:_.sofineday.com'
+[2020 年 11 月 03 日 星期二 18:03:23 CST] Getting domain auth token for each domain
+[2020 年 11 月 03 日 星期二 18:03:30 CST] Getting webroot for domain='sofineday.com'
+[2020 年 11 月 03 日 星期二 18:03:30 CST] Getting webroot for domain='_.sofineday.com'
+[2020 年 11 月 03 日 星期二 18:03:31 CST] sofineday.com is already verified, skip dns-01.
+[2020 年 11 月 03 日 星期二 18:03:31 CST] _.sofineday.com is already verified, skip dns-01.
+[2020 年 11 月 03 日 星期二 18:03:31 CST] Verify finished, start to sign.
+[2020 年 11 月 03 日 星期二 18:03:31 CST] Lets finalize the order.
+[2020 年 11 月 03 日 星期二 18:03:31 CST] Le*OrderFinalize='https://acme-v02.api.letsencrypt.org/acme/finalize/101071293/6015050649'
+[2020 年 11 月 03 日 星期二 18:03:33 CST] Downloading cert.
+[2020 年 11 月 03 日 星期二 18:03:33 CST] Le_LinkCert='https://acme-v02.api.letsencrypt.org/acme/cert/046a3b81d368232ac6da38c1db0bd803fafc'
+[2020 年 11 月 03 日 星期二 18:03:34 CST] Cert success.
+-----BEGIN CERTIFICATE-----
+MIIFZDCCBEygAwIBAgISBGo7gdNoIyrG2jjB2wvYA/r8MA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDExMDMwOTAzMzNaFw0y
+MTAyMDEwOTAzMzNaMBgxFjAUBgNVBAMTDXNvZmluZWRheS5jb20wggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDfAdIati/JZFCEMmTXD4j2UgOwKbKynjHk
+ghcW0wA+YyNvIW/Y/kmN4fMk3qEslG6l/XXZ0Lv1IYYStRY70BlUUsHsJ/K/Mu0O
++EFcCBOfggOoZ8J6RCP1tU/erTq2JJTiWNmlQSqCq92SyJJvVdYYOBRrlMuxtBba
+8pPLjcpxeSO4iEqlNJh+VJNJE1Loh3X77zRBkLwlsetcI/DwKEn670M01l61XMG1
+QMX8RRkp+O4J8Hy6SJlEFv1a320pZJ9IA5D3x8YpgvKJzb5043aN0gPBJ37MVtJq
+Mw4NBh9gLk8JKNgbNgJPkJypggLXmGYiLLaFIZEPcoDtjF+xdQ+1AgMBAAGjggJ0
+MIICcDAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUF
+BwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFORKHDj/oRKs5nweoobwEffhV0T0
+MB8GA1UdIwQYMBaAFKhKamMEfd265tE5t6ZFZe/zqOyhMG8GCCsGAQUFBwEBBGMw
+YTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+ZzAvBggrBgEFBQcwAoYjaHR0cDovL2NlcnQuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+Zy8wKQYDVR0RBCIwIIIPKi5zb2ZpbmVkYXkuY29tgg1zb2ZpbmVkYXkuY29tMEwG
+A1UdIARFMEMwCAYGZ4EMAQIBMDcGCysGAQQBgt8TAQEBMCgwJgYIKwYBBQUHAgEW
+Gmh0dHA6Ly9jcHMubGV0c2VuY3J5cHQub3JnMIIBBQYKKwYBBAHWeQIEAgSB9gSB
+8wDxAHYA9lyUL9F3MCIUVBgIMJRWjuNNExkzv98MLyALzE7xZOMAAAF1jY/NuAAA
+BAMARzBFAiEAmaVBTxlQ47FYowMBQZyHKilgT46kA/Ud/YdHLV9zO3ECIBO2v0+T
+A4JWbub/BvJZXSOD84xXtiiZAMGz2LfP3bVhAHcAb1N2rDHwMRnYmQCkURX/dxUc
+EdkCwQApBo2yCJo32RMAAAF1jY/OEQAABAMASDBGAiEA3quHKHc/28EMK3KMTqZU
+xKPEgO4N0g3P+rR6qW8B7YMCIQCDq/146h+GYWrO52U6Ey3M4AfOLxf3IHDya9fl
+jYV/ETANBgkqhkiG9w0BAQsFAAOCAQEAmNORzZu1BwiXup3TIzASl/odXVhsJF/I
+MXqMDSXR8cuafkralwCYy/ewh4vcgcZSfd0XCS/xPHDKZ5MeaKSh8enchH2WD6+G
+Xyf8c4pWWdGKWqKxyPcX+5+hWvbzg/3SL7uDbBbhV9sRspGhQV4okEbYJvFLAydg
+uoYaDiMoHUrjgz9atLcHn6EgHelcv5JcJkVZR+qD2MmZwh5LFZFNkDhGJUOFAUbm
+1UDbGTUZt4CFx7ihZ7V9JJ69QQh+2Hub3SQJU3vHpB0pEKH7bBsfIomaWowQa3FQ
+j+3GSgudM1QR9EKUhENHTqJ+RXdGu2AFH22W1L25L1Eh0U27g89lZw==
+-----END CERTIFICATE-----
+[2020 年 11 月 03 日 星期二 18:03:34 CST] Your cert is in /root/.acme.sh/sofineday.com/sofineday.com.cer
+[2020 年 11 月 03 日 星期二 18:03:34 CST] Your cert key is in /root/.acme.sh/sofineday.com/sofineday.com.key
+[2020 年 11 月 03 日 星期二 18:03:34 CST] The intermediate CA cert is in /root/.acme.sh/sofineday.com/ca.cer
+[2020 年 11 月 03 日 星期二 18:03:34 CST] And the full chain certs is there: /root/.acme.sh/sofineday.com/fullchain.cer
+[2020 年 11 月 03 日 星期二 18:03:34 CST] Installing key to:/data/docker-service/nginx/cert/*.sofineday.com.private.key
+[2020 年 11 月 03 日 星期二 18:03:34 CST] Installing full chain to:/data/docker-service/nginx/cert/*.sofineday.com.full_chain.pem
+[2020 年 11 月 03 日 星期二 18:03:34 CST] Run reload cmd: docker cp /data/docker-service/nginx/cert/*.sofineday.com.private.key nginx:/etc/nginx/cert/ &amp;amp;&amp;amp; docker cp /data/docker-service/nginx/cert/\_.sofineday.com.full_chain.pem nginx:/etc/nginx/cert/ &amp;amp;&amp;amp; docker exec -it nginx service nginx force-reload
+[ ok ] Reloading nginx: nginx.
+[2020 年 11 月 03 日 星期二 18:03:35 CST] Reload success
+[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --list
+Main_Domain KeyLength SAN_Domains CA Created Renew
+sofineday.com &quot;&quot; _.sofineday.com LetsEncrypt.org 2020 年 11 月 03 日 星期二 10:03:34 UTC 2021 年 01 月 02 日 星期六 10:03:34 UTC
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br></div></div><ul><li>更新所有证书 用法同<strong>单独更新某个证书</strong>类似，只需将参数名改为--renew-all: <code>acme.sh --renew-all</code> 强制更新: <code>acme.sh --renew-all --force</code></li></ul> <h3 id="_5-2-通过定时任务执行"><a href="#_5-2-通过定时任务执行" class="header-anchor">#</a> 5.2 通过定时任务执行</h3> <p>acme 内部维护着一个定时任务，到达指定时间(见 acme.sh --list 输出的 Renew 列)，则会更新证书。　　 若您想在证书过期之前，提前更新证书，则执行如下命令即可: acme.sh --cron --force</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --list
+Main*Domain KeyLength SAN_Domains CA Created Renew
+sofineday.com &quot;&quot; *.sofineday.com LetsEncrypt.org 2020 年 11 月 03 日 星期二 02:29:41 UTC 2021 年 01 月 02 日 星期六 02:29:41 UTC
+[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --cron --force
+[2020 年 11 月 03 日 星期二 16:44:33 CST] ===Starting cron===
+[2020 年 11 月 03 日 星期二 16:44:33 CST] Installing from online archive.
+[2020 年 11 月 03 日 星期二 16:44:33 CST] Downloading https://github.com/acmesh-official/acme.sh/archive/master.tar.gz
+[2020 年 11 月 03 日 星期二 16:44:41 CST] Extracting master.tar.gz
+[2020 年 11 月 03 日 星期二 16:44:41 CST] Installing to /root/.acme.sh
+[2020 年 11 月 03 日 星期二 16:44:41 CST] Installed to /root/.acme.sh/acme.sh
+[2020 年 11 月 03 日 星期二 16:44:41 CST] Good, bash is found, so change the shebang to use bash as preferred.
+[2020 年 11 月 03 日 星期二 16:44:42 CST] OK
+[2020 年 11 月 03 日 星期二 16:44:42 CST] Install success!
+[2020 年 11 月 03 日 星期二 16:44:43 CST] Upgrade success!
+[2020 年 11 月 03 日 星期二 16:44:43 CST] Auto upgraded to: 2.8.8
+[2020 年 11 月 03 日 星期二 16:44:43 CST] Renew: 'mydomain.com'
+[2020 年 11 月 03 日 星期二 16:44:43 CST] 'mydomain.com' is not an issued domain, skip.
+[2020 年 11 月 03 日 星期二 16:44:43 CST] Skipped mydomain.com
+[2020 年 11 月 03 日 星期二 16:44:43 CST] Renew: 'sofineday.com'
+[2020 年 11 月 03 日 星期二 16:44:45 CST] Using CA: https://acme-v02.api.letsencrypt.org/directory
+[2020 年 11 月 03 日 星期二 16:44:45 CST] Multi domain='DNS:sofineday.com,DNS:_.sofineday.com'
+[2020 年 11 月 03 日 星期二 16:44:45 CST] Getting domain auth token for each domain
+[2020 年 11 月 03 日 星期二 16:44:49 CST] Getting webroot for domain='sofineday.com'
+[2020 年 11 月 03 日 星期二 16:44:49 CST] Getting webroot for domain='_.sofineday.com'
+[2020 年 11 月 03 日 星期二 16:44:49 CST] sofineday.com is already verified, skip dns-01.
+[2020 年 11 月 03 日 星期二 16:44:49 CST] _.sofineday.com is already verified, skip dns-01.
+[2020 年 11 月 03 日 星期二 16:44:49 CST] Verify finished, start to sign.
+[2020 年 11 月 03 日 星期二 16:44:49 CST] Lets finalize the order.
+[2020 年 11 月 03 日 星期二 16:44:49 CST] Le_OrderFinalize='https://acme-v02.api.letsencrypt.org/acme/finalize/101071293/6014120473'
+[2020 年 11 月 03 日 星期二 16:44:51 CST] Downloading cert.
+[2020 年 11 月 03 日 星期二 16:44:51 CST] Le_LinkCert='https://acme-v02.api.letsencrypt.org/acme/cert/0397895ff02c722b847007f4dbd979eda735'
+[2020 年 11 月 03 日 星期二 16:44:52 CST] Cert success.
+-----BEGIN CERTIFICATE-----
+MIIFYzCCBEugAwIBAgISA5eJX/AsciuEcAf029l57ac1MA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDExMDMwNzQ0NTBaFw0y
+MTAyMDEwNzQ0NTBaMBgxFjAUBgNVBAMTDXNvZmluZWRheS5jb20wggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDfAdIati/JZFCEMmTXD4j2UgOwKbKynjHk
+ghcW0wA+YyNvIW/Y/kmN4fMk3qEslG6l/XXZ0Lv1IYYStRY70BlUUsHsJ/K/Mu0O
++EFcCBOfggOoZ8J6RCP1tU/erTq2JJTiWNmlQSqCq92SyJJvVdYYOBRrlMuxtBba
+8pPLjcpxeSO4iEqlNJh+VJNJE1Loh3X77zRBkLwlsetcI/DwKEn670M01l61XMG1
+QMX8RRkp+O4J8Hy6SJlEFv1a320pZJ9IA5D3x8YpgvKJzb5043aN0gPBJ37MVtJq
+Mw4NBh9gLk8JKNgbNgJPkJypggLXmGYiLLaFIZEPcoDtjF+xdQ+1AgMBAAGjggJz
+MIICbzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUF
+BwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFORKHDj/oRKs5nweoobwEffhV0T0
+MB8GA1UdIwQYMBaAFKhKamMEfd265tE5t6ZFZe/zqOyhMG8GCCsGAQUFBwEBBGMw
+YTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+ZzAvBggrBgEFBQcwAoYjaHR0cDovL2NlcnQuaW50LXgzLmxldHNlbmNyeXB0Lm9y
+Zy8wKQYDVR0RBCIwIIIPKi5zb2ZpbmVkYXkuY29tgg1zb2ZpbmVkYXkuY29tMEwG
+A1UdIARFMEMwCAYGZ4EMAQIBMDcGCysGAQQBgt8TAQEBMCgwJgYIKwYBBQUHAgEW
+Gmh0dHA6Ly9jcHMubGV0c2VuY3J5cHQub3JnMIIBBAYKKwYBBAHWeQIEAgSB9QSB
+8gDwAHUAlCC8Ho7VjWyIcx+CiyIsDdHaTV5sT5Q9YdtOL1hNosIAAAF1jUe+ngAA
+BAMARjBEAiBmEQew/ZTGak523Jesy31aSBCy03TbSmOaEIS7C9ez9AIgRfaJXCtF
+G6WXDnpqsDu04MkWvBa7ykB+7TmYe2n9f34AdwB9PvL4j/+IVWgkwsDKnlKJeSvF
+DngJfy5ql2iZfiLw1wAAAXWNR77gAAAEAwBIMEYCIQCMo0BVA8eflzxz6xJsuUTe
+TG2LPIXqPB+TVPEDAZLBRQIhALcjTfd4i4evNxbWSzXg2X/0pYpho+RGmtW8tUR7
+edqUMA0GCSqGSIb3DQEBCwUAA4IBAQBKJRQMmLfgs+tyk4vP4k854OWYZzi4dzD9
+UO7bLIroQyS2V26mX7MNr35G5+KRpHtXOy5VYOePh1AgQSkJfi0v6efNlPVQ+Kub
+iANsqQHcoDmnfPz9/iPIQ2O9ei1oD/Rkx0zBKXrzOlpf7vezreTFbXOuhbD5EwSc
+q+70BQ4LRU7+29MLStjlBp0NGZeiMh3MjtcNtnryK2d4zwzWQKuAY+gKHPYof5M1
+11d+5vYEFC/wfuZUMMcNhGeJcxr/nAn+0j+7ok9iirijkuhe5/vI2XOF/e9BYCch
+TK4w/d0Q7x7yW87NjqEly27nhpUqIhGYNUNWZ325MIvCr3GoDm/h
+-----END CERTIFICATE-----
+[2020 年 11 月 03 日 星期二 16:44:52 CST] Your cert is in /root/.acme.sh/sofineday.com/sofineday.com.cer
+[2020 年 11 月 03 日 星期二 16:44:52 CST] Your cert key is in /root/.acme.sh/sofineday.com/sofineday.com.key
+[2020 年 11 月 03 日 星期二 16:44:52 CST] The intermediate CA cert is in /root/.acme.sh/sofineday.com/ca.cer
+[2020 年 11 月 03 日 星期二 16:44:52 CST] And the full chain certs is there: /root/.acme.sh/sofineday.com/fullchain.cer
+[2020 年 11 月 03 日 星期二 16:44:52 CST] Installing key to:/data/docker-service/nginx/cert/_.sofineday.com.private.key
+[2020 年 11 月 03 日 星期二 16:44:52 CST] Installing full chain to:/data/docker-service/nginx/cert/_.sofineday.com.full_chain.pem
+[2020 年 11 月 03 日 星期二 16:44:52 CST] Run reload cmd: docker cp /data/docker-service/nginx/cert/_.sofineday.com.private.key nginx:/etc/nginx/cert/ &amp;amp;&amp;amp; docker cp /data/docker-service/nginx/cert/\_.sofineday.com.full_chain.pem nginx:/etc/nginx/cert/ &amp;amp;&amp;amp; docker exec -it nginx service nginx force-reload
+[ ok ] Reloading nginx: nginx.
+[2020 年 11 月 03 日 星期二 16:44:53 CST] Reload success
+[2020 年 11 月 03 日 星期二 16:44:53 CST] ===End cron===
+[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --list
+Main_Domain KeyLength SAN_Domains CA Created Renew
+sofineday.com &quot;&quot; \*.sofineday.com LetsEncrypt.org 2020 年 11 月 03 日 星期二 08:44:52 UTC 2021 年 01 月 02 日 星期六 08:44:52 UTC
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br></div></div><h2 id="_6-查看证书列表"><a href="#_6-查看证书列表" class="header-anchor">#</a> 6. 查看证书列表</h2> <p>执行如下命令，查看证书列表 ~/.acme.sh/acme.sh --list</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>[root@iZ2ze7011et12xez70sp3dZ ~]# acme.sh --list
+Main_Domain KeyLength SAN_Domains CA Created Renew
+sofineday.com &quot;&quot; \*.sofineday.com LetsEncrypt.org 2020 年 11 月 03 日 星期二 02:29:41 UTC 2021 年 01 月 02 日 星期六 02:29:41 UTC
+[root@iZ2ze7011et12xez70sp3dZ ~]#
+
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><blockquote><p>Created 表示申请时间, Renew表示下次执行证书更新的时间。</p></blockquote> <h2 id="_7-删除证书"><a href="#_7-删除证书" class="header-anchor">#</a> 7. 删除证书</h2> <p>acme.sh --remove --domain <strong>sofineday.com</strong></p> <blockquote><p>将域名换成实际域名即可</p></blockquote> <h2 id="_8-更新-acme-sh"><a href="#_8-更新-acme-sh" class="header-anchor">#</a> 8. 更新 acme.sh</h2> <p>由于 acme 协议和 letsencrypt CA 都在频繁的更新, 因此 acme.sh 也经常更新以保持同步。 升级 acme.sh 到最新版：</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>acme.sh --upgrade
+
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>如果您不想手动升级,，可以开启自动升级：</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>acme.sh --upgrade --auto-upgrade
+
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>您也可以随时关闭自动更新：</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>acme.sh --upgrade --auto-upgrade 0
+
+ 
+        Copied!
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h2 id="_9-检测网站的安全级别"><a href="#_9-检测网站的安全级别" class="header-anchor">#</a> 9. 检测网站的安全级别</h2> <p>可以使用如下网站检测网站的安全级别:</p> <ul><li>https://myssl.com</li></ul> <h2 id="_10-其它资料"><a href="#_10-其它资料" class="header-anchor">#</a> 10. 其它资料</h2> <h3 id="freessl-cn官方提供的证书自动续期方案"><a href="#freessl-cn官方提供的证书自动续期方案" class="header-anchor">#</a> freessl.cn官方提供的证书自动续期方案</h3> <p>发现freessl.cn总结了一套”支持https证书自动续期“的文档，但经过我的实际操作发现，生成证书时一直失败并最终退出(尝试过多次)。所以并没有见得比我之前总结的方法好。但是可以作为拓展资料，见<a href="https://blog.freessl.cn/acme-quick-start/" target="_blank" rel="noopener noreferrer">ACME v2证书自动化快速入门 (opens new window)<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>。
+该套方案实际上是使用freessl.cn创建的CA服务器来生成证书。</p> <p>操作步骤：</p> <ol><li>访问https://freessl.cn</li> <li>输入域名</li> <li>选择带有<code>多域名通配符(有效期：自动续期)</code>标志的亚洲诚信厂商</li> <li>点击<code>创建免费的ssl证书</code></li> <li>按提示操作即可</li></ol></div></div>  <div class="page-edit"><div class="edit-link"><a href="https://github.com/xugaoyi/vuepress-theme-vdoing/edit/master/docs/07.运维/02.NGINX/01.nginx的https证书自动续期.md" target="_blank" rel="noopener noreferrer">编辑</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">2024/09/28, 18:40:22</span></div></div> <div class="page-nav-wapper"><div class="page-nav-centre-wrap"><a href="/pages/16573d/" class="page-nav-centre page-nav-centre-prev"><div class="tooltip">常用服务（Redis、RabbitMQ等）Docker启动指引</div></a> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/pages/16573d/" class="prev">常用服务（Redis、RabbitMQ等）Docker启动指引</a></span> <!----></p></div></div></div> <div class="article-list"><div class="article-title"><a href="/archives/" class="iconfont icon-bi">最近更新</a></div> <div class="article-wrapper"><dl><dd>01</dd> <dt><a href="/pages/81a2f0/"><div>
+            使用vuepress+GitHub Pages搭建博客并自定义域名（绑定自己的域名）
+            <!----></div></a> <span class="date">10-01</span></dt></dl><dl><dd>02</dd> <dt><a href="/pages/16573d/"><div>
+            常用服务（Redis、RabbitMQ等）Docker启动指引
+            <!----></div></a> <span class="date">09-28</span></dt></dl><dl><dd>03</dd> <dt><a href="/pages/dc2800/"><div>
+            Redis为什么快？
+            <!----></div></a> <span class="date">09-07</span></dt></dl> <dl><dd></dd> <dt><a href="/archives/" class="more">更多文章&gt;</a></dt></dl></div></div></main></div> <div class="footer"><div class="icons"><a href="mailto:894072666@qq.com" title="发邮件" target="_blank" class="iconfont icon-youjian"></a><a href="https://github.com/xugaoyi" title="GitHub" target="_blank" class="iconfont icon-github"></a><a href="https://music.163.com/#/playlist?id=755597173" title="听音乐" target="_blank" class="iconfont icon-erji"></a></div> 
+  Theme by
+  <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" title="本站主题">Vdoing</a> 
+    | Copyright © 2019-2024
+    <span>Evan Xu | <a href="https://github.com/xugaoyi/vuepress-theme-vdoing/blob/master/LICENSE" target="_blank">MIT License</a> | <a href="http://beian.miit.gov.cn/" target="_blank">粤ICP备2021157337号-2</a> | <img src="/img/beian.png" style="width: 15px; margin-bottom: -3px;" /> </span></div> <div class="buttons"><div title="返回顶部" class="button blur go-to-top iconfont icon-fanhuidingbu" style="display:none;"></div> <div title="去评论" class="button blur go-to-comment iconfont icon-pinglun" style="display:none;"></div> <div title="主题模式" class="button blur theme-mode-but iconfont icon-zhuti"><ul class="select-box" style="display:none;"><li class="iconfont icon-zidong">
+          跟随系统
+        </li><li class="iconfont icon-rijianmoshi">
+          浅色模式
+        </li><li class="iconfont icon-yejianmoshi">
+          深色模式
+        </li><li class="iconfont icon-yuedu">
+          阅读模式
+        </li></ul></div></div> <!----> <!----> <!----></div><div class="global-ui"><div></div></div></div>
+    <script src="/assets/js/app.5fc94a17.js" defer></script><script src="/assets/js/2.aa11156f.js" defer></script><script src="/assets/js/82.7f152b17.js" defer></script>
+  </body>
+</html>
